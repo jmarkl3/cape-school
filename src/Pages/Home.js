@@ -14,8 +14,8 @@ import waves from '../Images/waves-big.png'
 import rightImage from '../Images/cut-out-photo-for-website.png'
 
 function Home(props) {
-  return (
-    <div className='home'>           
+    <div className='home'>
+        This is the home page
         <div className='banner'>
             <div className='bannerContainer'>
                 <div><img src={stl}></img></div>
