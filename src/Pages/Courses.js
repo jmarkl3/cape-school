@@ -703,7 +703,7 @@ function Courses() {
         // Go to the specified page
         setPage(_page)
     }    
-
+var a = "a"
     
     // Add functions
     function addCourse(){
