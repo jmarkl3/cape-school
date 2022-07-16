@@ -1,0 +1,102 @@
+.aboutBanner{
+    background-image: url("../Images/about-banner.jpg");
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    min-height: 300px
+}
+.aboutBanner img{
+    padding: 180px 0 180px 0;
+}
+.aboutPhilosophy{
+    background-image: url("../Images/Map-Pattern-Light.png");
+    background-size: cover;
+    text-align: center;
+    font-size: 16px;
+    color: rgb(0,143,187);    
+    padding: 40px;
+}
+.phTitle{
+    letter-spacing: 6px;
+}
+.phText{
+    font-size: 25px;
+    padding: 20px;    
+    text-align: center;
+}
+.phSpan1{
+    width: 90%;
+    display: inline-block;
+}
+.phSpan2{
+    color: black;
+    width: 90%;
+    display: inline-block;
+    max-width: 785px;
+}
+.aboutText{
+    background-size: cover;
+    min-height: 100px;
+    font-size: 14px;    
+    padding-top: 40px;
+    background-image: url("../Images/Background-Texture-tile.png");
+}
+.aboutTextHalf{
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+    text-align: left;
+    box-sizing: border-box;
+    padding: 20px;
+}
+.athL{
+    width: 430px;
+}
+.athR{
+    width: 370px;
+}
+.aboutTextHalf p{
+    text-align: justify;
+    font-size: 14px;
+    font: 400 12px/1.5 Domine, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: rgb(44,50,66);
+    height: 126px;
+}
+.aboutButton{
+    height: 40px;
+    width: 200px;
+    background-color: rgb(0,120,160);
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+    line-height: 40px;
+    margin: 20px;
+}
+.aboutButton:hover{
+    background-color: rgb(12, 153, 201);
+}
+.aboutBottomText{
+    font-size: 20px;
+}
+.aboutBottomText2{
+    font-size: 16px;
+    padding: 10px 0 100px 0;
+    box-sizing: border-box;
+}
+@media screen and (max-width:825px){
+    .athL{
+        width: 500px;
+    }
+    .athR{
+        width: 500px;
+    }
+    .aboutTextHalf{
+        margin: 0;
+        padding: 0;        
+    }
+    .aboutTextHalf p{
+        margin: 0;
+    }
+}

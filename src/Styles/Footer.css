@@ -1,0 +1,51 @@
+.footer{
+    background-image: url('../Images/footer-bg.jpg');
+    background-size: cover;
+    padding-top: 60px;
+    color: white;
+}
+.footerInner{    
+    padding: 20px;
+    background-color: rgb(44,50,66);
+    min-height: 160px;
+}
+.footerLeft{
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+}
+.footerRight{
+    width: 69%;
+    display: inline-block;
+    text-align: right;
+    padding-right: 20px;
+    padding-top: 40px;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+.third{
+    width: 24%;
+    display: inline-block;    
+    text-align: center;
+    vertical-align: top;
+}
+.footer nav{
+    display: inline-block;
+}
+.footer ul{
+    margin: 0;
+    padding: 0;
+}
+.footer li{
+   list-style: none;
+}
+.footer li a{
+    padding: 5px 15px;    
+    margin: 5px;
+    user-select: none;
+    cursor: pointer;
+    display: inline-block;
+}
+.footer li a:hover{
+    background-color: rgba(255, 255, 255, 0.466);
+}

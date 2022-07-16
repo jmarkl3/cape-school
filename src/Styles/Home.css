@@ -1,0 +1,260 @@
+.banner{
+    background-image: url('../Images/banner-image.jpg');
+    background-size: cover;
+    text-align: center;
+    color: white;
+    height: 800px;
+}
+.bannerContainer{
+    margin: 0 auto;
+    padding: 160px 0 0px 0;
+    width: 80%;
+}
+.line{
+    width: 50%;
+    display: inline-block;
+    background-color: rgba(77, 85, 121, 0.384);
+    height: 3px;
+    margin: 20px;
+}
+.bannerText{
+    font-size: 2.5em;
+    font-weight: 600;
+    padding: 20px;    
+}
+.selectionBar{
+    width: 340px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(219, 209, 120, 0.452);
+    user-select: none;
+    display: inline-block;
+    margin: 20px;
+    font-size: 16px;
+}
+.selectionBarHalf{    
+    line-height: 50px;
+    width: 50%;
+    height: 100%;
+    vertical-align: top;
+    display: inline-block;
+}
+.selectionBarLeft{
+    background-color: rgb(41,46,61);
+    color: rgb(125, 144, 190);
+    height: 120%;
+}
+.selectionBarRight{
+    background-color: white;
+    color: black;
+}
+.selectionBar select{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    font-size: 16px;
+}
+.home .button{
+    width: 220px;
+    height: 40px;
+    line-height: 40px;
+    background-color: rgb(0,143,187);
+    font-size: 14px;
+}
+.home .button:hover{
+    background-color: rgb(79, 183, 214);
+}
+.bannerLogo{
+    padding: 40px;
+}
+.quotes{
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    background-image: url("../Images/Background-Texture-tile.png");
+}
+.quoteHalf{
+    width: 50%; 
+    padding-bottom: 60px;   
+    position: relative;
+    display: inline-block;
+}
+.quoteHalf img{
+    width: 100%;
+}
+.quoteText{
+    min-height: 60px;
+    width: 90%;
+    margin-left: 5%;    
+    position: absolute;
+    bottom: 50px;
+    right: 5%;
+    background-image: url("../Images/Background-Texture-tile.png");
+    padding: 30px 0 0 0;
+    box-sizing: border-box;
+}
+.quoteName{
+    color: rgb(0,143,187);
+    padding: 30px;
+}
+.cards{
+    background-image: url('../Images/Map-Pattern-Light.png');
+    background-size: cover;
+    padding: 20px 5%;            
+    text-align: center;    
+}
+.card{    
+    border: 1px solid rgb(0,143,187);;
+    border-radius: 3px;
+    margin: 20px;
+    display: inline-block;
+    text-align: center;
+    padding-top: 30px;
+    width: 240px;
+    height: 270px;
+    vertical-align: top;
+}
+.cardLink{
+    color: rgb(0,143,187);
+    user-select: none;
+    cursor: pointer;
+    padding: 20px;    
+}
+.cardLink:hover{
+    color:rgb(68, 151, 177);
+    font-weight: bold;
+}
+.card:hover{
+    background-color: rgba(255, 255, 255, 0.671);
+    box-shadow: 0 0 5px rgba(250, 243, 176, 0.582);
+}
+.conditionalDisplay{
+    display: none;
+}
+.partnershipWrapper{    
+    background-image: url("../Images/Background-Texture-tile.png");
+}
+.partnership{
+    padding: 20px 0;
+    margin: 0 auto;
+    width: 850px;
+}
+.left{
+ width: 35%;
+ font-size: 30px;
+ color: rgb(0,143,187);
+ vertical-align: top;
+ display: inline-block;
+ padding-right: 10px;
+ box-sizing: border-box;
+ text-align: right;
+}
+
+.left img{
+    margin-right: -40px;
+    padding-bottom: 20px;    
+}
+.right{
+    width: 64%;
+    vertical-align: top;
+    display: inline-block;
+    font-weight: bold;    
+}
+.partnership img{
+    width: 100%;
+    height: 100%;
+    display: inline-block;    
+}
+.partnership .button{
+    width: calc(100% - 10px);
+    height: 50px;
+    line-height: 50px;
+    border-radius: 5px;
+    background-color: rgb(0,143,187);
+    margin-top: 30px;
+    color: white;
+    text-align: center;
+}
+.partnership .button:hover{
+    background-color: rgb(79, 183, 214);
+}
+.rightText{
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px;
+}
+@media screen and (max-width:850px){
+    .partnership{
+        width: auto;
+    }
+    .partnership .right{
+        width: 100%;
+    }
+    .partnership .left{
+        width: 75%;
+        text-align: center;
+    }
+    .left img{
+        margin-right: 0px;
+        padding-bottom: 20px;    
+        width: 75%;
+    }
+}
+@media screen and (min-width:923px) and (max-width:1225px){
+    .conditionalDisplay{
+        display: inline-block;        
+    }
+}
+@media screen and (max-width:625px){
+    .card{
+        width: 90%;
+    }
+}
+.cards{
+    background-image: url('../Images/Map-Pattern-Light.png');
+    background-size: cover;
+    padding: 20px 5%;            
+    text-align: center;
+}
+.card{    
+    border: 1px solid rgb(0,143,187);;
+    border-radius: 3px;
+    margin: 20px;
+    display: inline-block;
+    text-align: center;
+    padding-top: 30px;
+    width: 240px;
+    height: 270px;
+    vertical-align: top;
+}
+.cardLink{
+    color: rgb(0,143,187);
+    user-select: none;
+    cursor: pointer;
+    padding: 20px;    
+}
+.cardLink:hover{
+    color:rgb(68, 151, 177);
+    font-weight: bold;
+}
+.card:hover{
+    background-color: rgba(255, 255, 255, 0.671);
+    box-shadow: 0 0 5px rgba(250, 243, 176, 0.582);
+}
+.conditionalDisplay{
+    display: none;
+}
+@media screen and (min-width:958px) and (max-width:1272px){
+    .conditionalDisplay{
+        display: inline-block;        
+    }
+}
+@media screen and (max-width:625px){
+    .card{
+        width: 90%;
+    }
+}

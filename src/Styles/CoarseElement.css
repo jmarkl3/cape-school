@@ -1,0 +1,127 @@
+.elementBox{
+    width: 80%;
+    min-height: 100px;
+    background-image: url("../Images/Background-Texture-tile.png");
+    border-radius: 3px;
+    box-shadow: 0 0 10px gray;
+    display: inline-block;
+    margin: 10px;
+    padding: 10px; 
+    box-sizing: border-box;
+    font: 14px;    
+}
+.elementTitle{
+    margin: 20px;
+    font-size: 16px;
+}
+.elementTitle .elementInput{
+    font-size: 16px;
+    height: 30px;
+}
+.elementInput{
+    height: 35px;
+    width: 80%;
+    text-align: center;
+    outline: none;
+    border: none;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.elementTextInput{
+    min-height: 120px;
+    text-align: left;
+}
+.elementSelect{
+    width: 140px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+.titleElement{
+    font-size: 26px;
+    line-height: 100px;
+}
+.titleElement input{
+    font-size: 26px;
+    height: 45px;
+}
+.elementText{
+    padding: 5px;
+    margin: 5px;
+    position: relative;
+    width: 80%;
+    display: inline-block;
+    font-size: 14px;
+    text-align: left;
+}
+.questionAnswer{
+    border: 1px solid rgba(52, 50, 50, 0.634);
+    border-radius: 4px;    
+    background-image: linear-gradient(aliceblue, rgb(205, 222, 236));
+    width: 80%;
+    margin: 5px;
+    padding: 10px;
+    display: inline-block;
+    user-select: none;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(128, 128, 128, 0.474);    
+    position: relative;
+    font-size: 14px;
+}
+.questionAnswer:hover{    
+    background-image: linear-gradient( rgb(227, 238, 249),  rgb(199, 220, 239));
+    box-shadow: 0 0 2px rgba(128, 128, 128, 0.474);
+}
+.questionSelected{    
+    background-image: linear-gradient(rgb(181, 214, 243), rgb(123, 170, 210));    
+}
+.questionSelected:hover{
+    background-image: linear-gradient(rgb(181, 214, 243), rgb(123, 170, 210));
+}
+.questionCorrect{
+    background-color: rgb(60, 151, 79);
+    box-shadow: 0 0 10px gold;
+}
+.questionCorrect:hover{
+    background-color: rgb(60, 151, 79);
+    box-shadow: 0 0 15px gold;
+}
+.questionIncorrect{
+    background-color: rgb(241, 114, 114);
+}
+.questionIncorrect:hover{
+    background-color: rgb(241, 114, 114);
+}
+.correct{    
+    background-image: linear-gradient(rgb(106, 209, 106), rgb(15, 106, 15));
+    box-shadow: 0 2px 20px rgba(255, 204, 0, 0.66);
+}
+.correct:hover{    
+    background-image: linear-gradient(rgb(106, 209, 106), rgb(15, 106, 15));
+    box-shadow: 0 2px 20px rgba(255, 204, 0, 0.66);
+}
+.notCorrect{
+    background-image: linear-gradient(rgb(223, 135, 135), rgb(107, 38, 38));    
+}
+.notCorrect:hover{
+    background-image: linear-gradient(rgb(223, 135, 135), rgb(107, 38, 38));    
+}
+.correctNotSelected{
+    background-image: linear-gradient(rgb(159, 190, 159), rgb(79, 118, 79));
+}
+.correctNotSelected:hover{
+    background-image: linear-gradient(rgb(159, 190, 159), rgb(79, 118, 79));
+}
+.questionRadioButon{
+    display: inline-block;
+    position: absolute;
+    top:5px;
+    left:5px;    
+    border:  1px solid black;
+    padding: 5px;
+    border-radius: 3px;
+}
+.selectedRadioButton{
+    background-color: rgb(25, 159, 204);
+    background-image: linear-gradient(rgb(25, 159, 204), rgb(7, 114, 149));
+    color: white;
+}

@@ -1,0 +1,91 @@
+.sidebar{    
+    position: fixed;
+    top:130px;
+    height: calc(80% - 100px);
+    width: 200px;
+    background-color: rgba(240, 248, 255, 0.483);
+    left: 0;
+    border-radius: 0 5px 5px 0;
+    display: inline-block;    
+    cursor: pointer;
+    user-select: none;
+    padding-top: 10px;
+    font-size: 20px;
+    transition: 800ms;
+    box-shadow: 0 0 5px gray;
+}
+.chapterLine{
+    padding: 8px 0;
+    background-color: aliceblue;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.442);
+    width: 100%;
+    font-size: 14px;
+    position: relative;
+}
+.sectionLine{
+    padding: 8px 0;
+    display: none;
+    font-size: 12px;
+    position: relative;
+}
+.sectionLine .closeButton{
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    display: none;
+    right: auto;
+    left: 5px;
+}
+.sectionLine:hover .closeButton{
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    display: block;
+}
+.sectionLine:hover{    
+    background-color: rgba(0, 255, 255, 0.12);
+    background-image: linear-gradient(rgba(0, 255, 255, 0), rgba(39, 137, 137, 0.213));
+}
+.sectionLine .editButton{
+    background-color: rgba(138, 138, 215, 0.52);
+    right: auto;
+    left: 30px;
+}
+.sectionLine .editButton:hover{
+    background-color: rgba(105, 105, 198, 0.75);
+}
+.chapterLine:hover .sectionLine{
+    display: block;
+}
+
+.sidebarTitle{
+    border-bottom: 1px solid black;
+    padding: 10px;
+}
+.sidebarButton{
+    background-color: rgba(0, 255, 255, 0.248);
+    background-image: linear-gradient(rgba(0, 255, 255, 0), rgba(39, 137, 137, 0.35));
+    padding: 5px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.442);
+    font-size: 14px;
+}
+.sidebarButton:hover{
+    background-color: rgba(0, 255, 255, 0.404);
+}
+.closed{
+    left: -180px;
+}
+.hide{
+    display: none;
+}
+.sidebarOpenButton{
+    height: 80px;
+    width: 30px;
+    background-color: rgba(78, 130, 228, 0.341);
+    border-radius: 5px;
+    position: absolute;
+    right: 0px;
+    top:40%;
+    line-height: 80px;
+    font-size: 28px;
+}

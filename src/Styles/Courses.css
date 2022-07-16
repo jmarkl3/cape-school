@@ -1,0 +1,111 @@
+.page{
+    background-image: url("../Images/Map-Pattern-Light.png");
+    min-height: 600px;
+    padding: 20px;
+}
+.imageBox{
+    float: left;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+.imageBox img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.courseBox{
+    background-image: url("../Images/Background-Texture-tile.png");
+    width: 80%;
+    padding: 5px;
+    min-height: 200px;
+    vertical-align: top;
+    display: inline-block;
+    box-sizing: border-box;
+    position: relative;
+    border-radius: 2px;
+    margin-top: 20px;
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.349);
+    box-shadow: 0 0 5px rgb(59 75 109 / 77%);
+    
+}
+.borderBox {
+    border: 1px solid black;
+    border-radius: 3px;
+    min-height: 100px;
+    min-width: 100px;
+    display: inline-block;
+}
+.courseInfoTitle{
+    margin: 10px;
+    font-size: 20px;
+}
+.courseInfoBox{
+    width: calc(100% - 230px);
+    min-height: 200px;         
+    position: relative;
+    padding: 20px;
+    padding-bottom: 40px;  
+    box-sizing: border-box;    
+}
+.bottomButton{
+    
+    right: calc(50% - 90px);
+}
+.bottomButtonHolder{
+    position: absolute;
+    bottom: 0;
+    text-align: center;    
+    width:100%;
+    margin-left: -20px;
+}
+.courseDescription{
+    font-size: 14px;
+    text-align: justify;
+    padding: 10px;
+}
+.courseImageBox{    
+    min-height: 200px;    
+    display: inline-block;
+}
+.courseButton{
+    width: 180px;
+    height: 30px;
+    line-height: 30px;
+    margin: 5px;
+}
+.closeButton{
+    width: 25px;
+    height: 25px;
+    background-color: rgba(213, 127, 127, 0.642);
+    background-image: linear-gradient(rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.126));
+    color: white;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 25px;
+    top: 5px;
+    right: 5px;
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+}
+.closeButton:hover{
+    background-color: rgba(213, 127, 127, 0.854);
+}
+@media screen and (max-width:1000px){
+    .pageBox{
+        width: 100%;
+    }
+}
+@media screen and (max-width:700px){
+    .courseInfoBox{
+        width: 95%;
+    }
+    .courseImageBox{
+        width: 95%;
+        float: none;
+        margin-bottom: 20px;
+        height: 300px;        
+    }
+}
