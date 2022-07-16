@@ -16,7 +16,7 @@ import rightImage from '../Images/cut-out-photo-for-website.png'
 function Home(props) {
   return (
     <div className='home'>
-        This is the master branch
+        Ok new message
         <div className='banner'>
             <div className='bannerContainer'>
                 <div><img src={stl}></img></div>
