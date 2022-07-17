@@ -7,7 +7,8 @@ function ViewCourse(props) {
   const [step, setStep] = useState(0)
 
   useEffect(()=>{
-    setStep(props.getSectionStep(props.chapterId, props.sectionId))
+    //setStep(props.getSectionStep(props.chapterId, props.sectionId))
+    setStep(0)
   },[props.sectionId, props.chapterId])
 
   // Goes through elements and displays each one with a function

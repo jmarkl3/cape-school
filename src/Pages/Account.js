@@ -8,8 +8,7 @@ function Account({auth, setPage, userId}) {
     if(userId == null){
       setPage("Home")
     }
-  },[userId])
-
+  })  
 
   return (
     <div className='account'>

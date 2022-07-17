@@ -14,6 +14,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 function App() {
+  
+  const [page, setPage] = useState("Home")
+  const [coursePage, setCoursePage] = useState(null)
+  const [userId, setUserId] = useState(null)
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
@@ -27,35 +31,29 @@ function App() {
   
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-
   const auth = getAuth(app)
 
   useEffect(()=>{
-    
-  },[])
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      console.log("signed in user "+ uid)      
-
-      if(userId != user.uid)
-        setUserId(user.uid)
-      // ...
-    } else {
-      // User is signed out
-      // ...
-      console.log("no user signed in")
-      if(userId != null)
-        setUserId(null)
-    }
-    //setUserId("user.uid")
-  });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        console.log("signed in user "+ uid)      
   
-  const [page, setPage] = useState("Home")
-  const [userId, setUserId] = useState(null)
+        if(userId != user.uid)
+          setUserId(user.uid)
+        // ...
+      } else {
+        // User is signed out
+        // ...
+        console.log("no user signed in")
+        if(userId != null)
+          setUserId(null)
+      }
+      //setUserId("user.uid")
+    });
+  })
 
   function displayPage(){
         
@@ -82,6 +80,7 @@ function App() {
         userId={userId}
         auth={auth}
         app={app}
+        coursePage={coursePage}
       ></Courses>)
 
     if(page === "Account")
@@ -93,11 +92,20 @@ function App() {
     
   }
 
+
+
+  function goToCoursePage(_coursePage){    
+    console.log("in App.js goToCoursePage "+_coursePage)
+    setCoursePage(_coursePage)
+    setPage("Courses")
+  }
+
   return (
     <div className="App">
       <Header
         setPage={setPage}
         userId={userId}
+        goToCoursePage={goToCoursePage}
       ></Header>
       {displayPage()}
       <Footer></Footer>

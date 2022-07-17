@@ -21,561 +21,565 @@ function Courses(props) {
     const userRef = ref(database, "/cape-school/users/"+props.userId)
     const coursesRef = ref(database, "/cape-school/courses/")
 
+    const [initialLoad, setInitialLoad] = useState(true)
+
     // Data state
-    const [coursesData, setCoursesData] = useState(
-        {
-            courses:{
-                course1:{
-                    name:"this is the first course",
-                    imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
-                    description:"this is the description of the first course",
-                    chapters:{
-                        chapter1:{
-                            title:"this is the first chapter a",
-                            sections:{
-                                section1:{
-                                    title:"this is the first section a",
-                                    elements:{
-                                        element1:{
-                                            type:"title",
-                                            title:"this is a title element from the first chapter and first section",
-                                            content:[
-                                                "part one of the first element in the first chapter",
-                                                "part one of the first element a",
-                                                "part one of the first element a",
-                                                "part one of the first element a",
-                                            ]
-                                        },
-                                        element2:{
-                                            type:"text",
-                                            title:"this is a text element in the first chapter",
-                                            content:[
-                                                "part one of the first element in the first chapter in the first section in the second element",                                            
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element3:{
-                                            type:"question",
-                                            title:"this is a question element",
-                                            content:[
-                                                "part one of the first element answer",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element4:{                                    
-                                            type:"image",
-                                            title:"this is an image element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element5:{                                    
-                                            type:"video",
-                                            title:"this is a video element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                    }
-                                },
-                                section2:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"title",
-                                            title:"this is a title element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element2:{
-                                            type:"text",
-                                            title:"this is a text element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element3:{
-                                            type:"question",
-                                            title:"this is a question element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element4:{                                    
-                                            type:"image",
-                                            title:"this is an image element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element5:{                                    
-                                            type:"video",
-                                            title:"this is a video element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                    }
-                                }
-                            }
-                        },
-                        chapter2:{
-                            title:"this is the second chapter",
-                            sections:{
-                                section1:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"title",
-                                            title:"this is a title element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element2:{
-                                            type:"text",
-                                            title:"this is a text element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element3:{
-                                            type:"question",
-                                            title:"this is a question element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element4:{                                    
-                                            type:"image",
-                                            title:"this is an image element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element5:{                                    
-                                            type:"video",
-                                            title:"this is a video element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                    }
-                                },
-                                section2:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"title",
-                                            title:"this is a title element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element2:{
-                                            type:"text",
-                                            title:"this is a text element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element3:{
-                                            type:"question",
-                                            title:"this is a question element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element4:{                                    
-                                            type:"image",
-                                            title:"this is an image element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element5:{                                    
-                                            type:"video",
-                                            title:"this is a video element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                    }
-                                }
-                            }
-                        },
-                        chapter3:{
-                            title:"this is the first chapter",
-                            sections:{
-                                section1:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"title",
-                                            title:"this is a title element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element2:{
-                                            type:"text",
-                                            title:"this is a text element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element3:{
-                                            type:"question",
-                                            title:"this is a question element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element4:{                                    
-                                            type:"image",
-                                            title:"this is an image element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element5:{                                    
-                                            type:"video",
-                                            title:"this is a video element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                    }
-                                },
-                                section2:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"title",
-                                            title:"this is a title element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element2:{
-                                            type:"text",
-                                            title:"this is a text element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element3:{
-                                            type:"question",
-                                            title:"this is a question element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element4:{                                    
-                                            type:"image",
-                                            title:"this is an image element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element5:{                                    
-                                            type:"video",
-                                            title:"this is a video element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                    }
-                                }
-                            }
-                        },
-                        chapter4:{
-                            title:"this is the second chapter",
-                            sections:{
-                                section1:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"title",
-                                            title:"this is a title element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element2:{
-                                            type:"text",
-                                            title:"this is a text element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element3:{
-                                            type:"question",
-                                            title:"this is a question element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element4:{                                    
-                                            type:"image",
-                                            title:"this is an image element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element5:{                                    
-                                            type:"video",
-                                            title:"this is a video element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                    }
-                                },
-                                section2:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"title",
-                                            title:"this is a title element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element2:{
-                                            type:"text",
-                                            title:"this is a text element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element3:{
-                                            type:"question",
-                                            title:"this is a question element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element4:{                                    
-                                            type:"image",
-                                            title:"this is an image element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                        element5:{                                    
-                                            type:"video",
-                                            title:"this is a video element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        },
-                                    }
-                                }
-                            }
-                        },
-                    }
-                },
-                course2:{
-                    name:"this is the second course",
-                    imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
-                    description:"this is the description of the first course",
-                    chapters:{
-                        chapter1:{
-                            title:"this is the first chapter",
-                            sections:{
-                                section1:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"text",
-                                            title:"this is the first element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                course3:{
-                    name:"this is the third course",
-                    imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
-                    description:"this is the description of the first course",
-                    chapters:{
-                        chapter1:{
-                            title:"this is the first chapter",
-                            sections:{
-                                section1:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"text",
-                                            title:"this is the first element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                course4:{
-                    name:"this is the fourth course",
-                    imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
-                    description:"this is the description of the first course",
-                    chapters:{
-                        chapter1:{
-                            title:"this is the first chapter",
-                            sections:{
-                                section1:{
-                                    title:"this is the first section",
-                                    elements:{
-                                        element1:{
-                                            type:"text",
-                                            title:"this is the first element",
-                                            content:[
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                                "part one of the first element",
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-            }
-        }
-    )    
+    
+    const [coursesData, setCoursesData] = useState({})
+    // const [coursesData, setCoursesData] = useState(
+    //     {
+    //         courses:{
+    //             course1:{
+    //                 name:"this is the first course",
+    //                 imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
+    //                 description:"this is the description of the first course",
+    //                 chapters:{
+    //                     chapter1:{
+    //                         title:"this is the first chapter a",
+    //                         sections:{
+    //                             section1:{
+    //                                 title:"this is the first section a",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"title",
+    //                                         title:"this is a title element from the first chapter and first section",
+    //                                         content:[
+    //                                             "part one of the first element in the first chapter",
+    //                                             "part one of the first element a",
+    //                                             "part one of the first element a",
+    //                                             "part one of the first element a",
+    //                                         ]
+    //                                     },
+    //                                     element2:{
+    //                                         type:"text",
+    //                                         title:"this is a text element in the first chapter",
+    //                                         content:[
+    //                                             "part one of the first element in the first chapter in the first section in the second element",                                            
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element3:{
+    //                                         type:"question",
+    //                                         title:"this is a question element",
+    //                                         content:[
+    //                                             "part one of the first element answer",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element4:{                                    
+    //                                         type:"image",
+    //                                         title:"this is an image element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element5:{                                    
+    //                                         type:"video",
+    //                                         title:"this is a video element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                 }
+    //                             },
+    //                             section2:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"title",
+    //                                         title:"this is a title element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element2:{
+    //                                         type:"text",
+    //                                         title:"this is a text element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element3:{
+    //                                         type:"question",
+    //                                         title:"this is a question element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element4:{                                    
+    //                                         type:"image",
+    //                                         title:"this is an image element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element5:{                                    
+    //                                         type:"video",
+    //                                         title:"this is a video element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                 }
+    //                             }
+    //                         }
+    //                     },
+    //                     chapter2:{
+    //                         title:"this is the second chapter",
+    //                         sections:{
+    //                             section1:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"title",
+    //                                         title:"this is a title element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element2:{
+    //                                         type:"text",
+    //                                         title:"this is a text element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element3:{
+    //                                         type:"question",
+    //                                         title:"this is a question element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element4:{                                    
+    //                                         type:"image",
+    //                                         title:"this is an image element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element5:{                                    
+    //                                         type:"video",
+    //                                         title:"this is a video element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                 }
+    //                             },
+    //                             section2:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"title",
+    //                                         title:"this is a title element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element2:{
+    //                                         type:"text",
+    //                                         title:"this is a text element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element3:{
+    //                                         type:"question",
+    //                                         title:"this is a question element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element4:{                                    
+    //                                         type:"image",
+    //                                         title:"this is an image element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element5:{                                    
+    //                                         type:"video",
+    //                                         title:"this is a video element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                 }
+    //                             }
+    //                         }
+    //                     },
+    //                     chapter3:{
+    //                         title:"this is the first chapter",
+    //                         sections:{
+    //                             section1:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"title",
+    //                                         title:"this is a title element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element2:{
+    //                                         type:"text",
+    //                                         title:"this is a text element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element3:{
+    //                                         type:"question",
+    //                                         title:"this is a question element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element4:{                                    
+    //                                         type:"image",
+    //                                         title:"this is an image element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element5:{                                    
+    //                                         type:"video",
+    //                                         title:"this is a video element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                 }
+    //                             },
+    //                             section2:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"title",
+    //                                         title:"this is a title element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element2:{
+    //                                         type:"text",
+    //                                         title:"this is a text element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element3:{
+    //                                         type:"question",
+    //                                         title:"this is a question element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element4:{                                    
+    //                                         type:"image",
+    //                                         title:"this is an image element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element5:{                                    
+    //                                         type:"video",
+    //                                         title:"this is a video element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                 }
+    //                             }
+    //                         }
+    //                     },
+    //                     chapter4:{
+    //                         title:"this is the second chapter",
+    //                         sections:{
+    //                             section1:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"title",
+    //                                         title:"this is a title element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element2:{
+    //                                         type:"text",
+    //                                         title:"this is a text element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element3:{
+    //                                         type:"question",
+    //                                         title:"this is a question element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element4:{                                    
+    //                                         type:"image",
+    //                                         title:"this is an image element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element5:{                                    
+    //                                         type:"video",
+    //                                         title:"this is a video element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                 }
+    //                             },
+    //                             section2:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"title",
+    //                                         title:"this is a title element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element2:{
+    //                                         type:"text",
+    //                                         title:"this is a text element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element3:{
+    //                                         type:"question",
+    //                                         title:"this is a question element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element4:{                                    
+    //                                         type:"image",
+    //                                         title:"this is an image element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                     element5:{                                    
+    //                                         type:"video",
+    //                                         title:"this is a video element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     },
+    //                                 }
+    //                             }
+    //                         }
+    //                     },
+    //                 }
+    //             },
+    //             course2:{
+    //                 name:"this is the second course",
+    //                 imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
+    //                 description:"this is the description of the first course",
+    //                 chapters:{
+    //                     chapter1:{
+    //                         title:"this is the first chapter",
+    //                         sections:{
+    //                             section1:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"text",
+    //                                         title:"this is the first element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     }
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             },
+    //             course3:{
+    //                 name:"this is the third course",
+    //                 imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
+    //                 description:"this is the description of the first course",
+    //                 chapters:{
+    //                     chapter1:{
+    //                         title:"this is the first chapter",
+    //                         sections:{
+    //                             section1:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"text",
+    //                                         title:"this is the first element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     }
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             },
+    //             course4:{
+    //                 name:"this is the fourth course",
+    //                 imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
+    //                 description:"this is the description of the first course",
+    //                 chapters:{
+    //                     chapter1:{
+    //                         title:"this is the first chapter",
+    //                         sections:{
+    //                             section1:{
+    //                                 title:"this is the first section",
+    //                                 elements:{
+    //                                     element1:{
+    //                                         type:"text",
+    //                                         title:"this is the first element",
+    //                                         content:[
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                             "part one of the first element",
+    //                                         ]
+    //                                     }
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             },
+    //         }
+    //     }
+    // )    
     
     const [userData, setUserData] = useState({
         name:"user name",
@@ -619,23 +623,35 @@ function Courses(props) {
 
     // On Start
     useEffect(()=>{
-        if(props.userId != null) 
-            setPage("userCourses")
+        // if(props.userId != null) 
+        //     setPage("userCourses")
+        if(props.coursePage != null && props.coursePage != page)
+            setPage(props.coursePage)
+        console.log("in Courses.js useEffect setting course page to "+props.coursePage)
         
-        setUpDbListeners()
-    },[props.userId])
+        if(initialLoad){
+            setUpDbListeners()
+            setInitialLoad(false)
+        }
+    },[])
 
 
     // Display functions
     function displayPage(){        
         if(page === "browseCourses")
-            return <BrowseCourses coursesData={coursesData} setPage={setPage} goToCourse={goToCourse} ></BrowseCourses>
+            return <BrowseCourses 
+            coursesData={coursesData} 
+            setPage={setPage} 
+            goToCourse={goToCourse} 
+        >            
+        </BrowseCourses>
         if(page === "userCourses")
             return <UserCourses   
                 coursesData={coursesData} 
                 setPage={setPage} 
                 goToCourse={goToCourse} 
                 userData={userData}
+                userId={props.userId}
             >
             </UserCourses>
         if(page === "enroll")
@@ -646,6 +662,7 @@ function Courses(props) {
                 auth={props.auth}
                 addCourse={addCourse}
                 coursesData={coursesData}
+                enrollInCourse={enrollInCourse}
             >
             </Enroll>
         if(page === "viewCourse")
@@ -705,6 +722,8 @@ function Courses(props) {
         // Set Course
         setCourseId(_courseId)              
         
+        // Or have the current chapter and section saved in user data
+        // For first time just show a welcome page telling user to select the first chapter from the side menu
         
         // Find first chapter                
         var topChapter = null
@@ -721,6 +740,7 @@ function Courses(props) {
                 topSection = sectionIdTemp
         
         // Set the chapter and section to the top one
+        // If both null getting started element will show
         setChapterId(topChapter)
         setSectionId(topSection)
 
@@ -731,16 +751,24 @@ function Courses(props) {
 
     // Firebase functions
     function setUpDbListeners(){
-        onValue(userRef, snapshot=>{
-            console.log("user data from db:")
-            console.log(snapshot.val())
-            setUserData(snapshot.val())
-        })
         onValue(coursesRef, snapshot=>{
             console.log("courses data from db:")
             console.log(snapshot.val())
             setCoursesData({courses:snapshot.val()})
         })
+        
+        onValue(ref(database, "/cape-school/users/"+props.userId), snapshot=>{
+            console.log("user data from db:")
+            console.log(snapshot.val())
+            
+            if(snapshot.val() != null)
+                setUserData(snapshot.val())
+
+            // If there is no course data add it
+            // it should be added when user enrolls in course though
+        })
+        return
+       
     }
 
     function uploadInitialUserData(){
@@ -908,7 +936,7 @@ function Courses(props) {
         if(userDataEnsurePath(_chapterId, _sectionId)){
             var tempUserData = userData
             tempUserData.courses[courseId].chapters[_chapterId].sections[_sectionId].step = step
-            setUserData(tempUserData)            
+            //setUserData(tempUserData)            
         }
 
     }
@@ -918,7 +946,7 @@ function Courses(props) {
         if(userDataEnsurePath(_chapterId, _sectionId, _elementId)){
             var tempUserData = userData
             tempUserData.courses[courseId].chapters[_chapterId].sections[_sectionId].elements[_elementId].step = step            
-            setUserData(tempUserData)                    
+            //setUserData(tempUserData)                    
         }
 
     }
@@ -1054,7 +1082,7 @@ function Courses(props) {
         //             }
         //         }
                 
-        //         setUserData(newUserData)
+        //         //setUserData(newUserData)
         //         return false
         //     }
 
@@ -1071,11 +1099,20 @@ function Courses(props) {
         //                     }
         //                 }
         //             }
-        //         setUserData(newUserData)
+        //         //setUserData(newUserData)
         //         return false
         //     }
 
-        
+        if(userData === undefined || userData.courses[courseId] === undefined){
+            console.log("undefined course data")
+            return
+        }
+
+        if(userData === undefined || userData.courses[courseId].chapters === undefined){
+            console.log("no chapters in user course data")
+            return
+        }
+
         // If only the cahpter is specified and its not there
         if(_chapterId != undefined)   
             if(userData.courses[courseId].chapters[_chapterId] === undefined){
@@ -1086,7 +1123,7 @@ function Courses(props) {
 
                     }
                 }
-                setUserData(newUserData)                
+                //setUserData(newUserData)                
                 return false
             }
 
@@ -1099,7 +1136,7 @@ function Courses(props) {
                         
                     }
                 }
-                setUserData(newUserData)
+                //setUserData(newUserData)
                 return false
             }
         
@@ -1108,7 +1145,7 @@ function Courses(props) {
             if(userData.courses[courseId].chapters[_chapterId].sections[_sectionId].elements[_elementId] === undefined){
                 var newUserData = userData
                 newUserData.courses[courseId].chapters[_chapterId].sections[_sectionId].elements[_elementId] = {}
-                setUserData(newUserData)
+                //setUserData(newUserData)
                 return false
             }
         
@@ -1127,11 +1164,21 @@ function Courses(props) {
         var tempUserData = userData
         if(tempUserData.courses[_courseId]=== undefined)
         tempUserData.courses[_courseId] = {}
-        setUserData(tempUserData)
+        //setUserData(tempUserData)
+    }
+    function enrollInCourse(_userId, _courseId){
+        // Put the course in the user data in the db
+        set(ref(database, "/cape-school/users/"+props.userId+"/courses/"+_courseId), {
+            enrolled:true
+        }).then(()=>{
+            // After course is added to user data in db, go to view course
+            goToCourse(_courseId, "viewCourse")            
+        })
     }
 
+
     return (
-    <div className='page'>
+    <div className='page' key={page}>
         <button onClick={setUpDbListeners}>Upload Initial Data</button>
         {displayPage()}
     </div>

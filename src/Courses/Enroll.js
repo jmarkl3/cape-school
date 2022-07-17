@@ -6,45 +6,40 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 
 function Enroll(props) {
     
-    function enrollNewUser(){
+  const [errorMessage, setErrorMessage] = useState(null)
+
+  function enrollNewUser(){
+      
+      var name = document.getElementById("nameInput").value
+      var email = document.getElementById("emailInput").value
+      var phone = document.getElementById("phoneInput").value
+      var password = document.getElementById("passwordInput").value
+  
+      console.log("attempting to enroll user with credentials: "+email+" and "+password)
+  
+      createUserWithEmailAndPassword(props.auth, email, password).then(userCredential=>{          
+
+        // This will put the course in the user data in the db (creating the user), set the courseId, and change the page to viewCourse
+        props.enrollInCourse(userCredential.user.uid, props.courseId)
+
+      })
+      .catch(error=>{          
+        displayErrorMessage(error.message)
+      })
+  
+  }
+
+  function displayErrorMessage(errorMessage){
+      if(errorMessage === "Firebase: Error (auth/configuration-not-found).")
+          setErrorMessage("User not found, please check input.")
+      else if(errorMessage === "Firebase: Error (auth/invalid-email).")
+          setErrorMessage("Invalid email, please check email.")
+      else if(errorMessage === "Firebase: Error (auth/internal-error).")
+          setErrorMessage("Login error, please check input.")
+      else
+          setErrorMessage(errorMessage)
+  }
         
-        var name = document.getElementById("nameInput").value
-        var email = document.getElementById("emailInput").value
-        var phone = document.getElementById("phoneInput").value
-        var password = document.getElementById("passwordInput").value
-    
-        console.log("attempting to enroll user with credentials: "+email+" and "+password)
-    
-        createUserWithEmailAndPassword(props.auth, email, password).then(userCredential=>{          
-          
-          // If user is successfully created 
-          
-          // Put the selected courses in their user data
-          props.addCourse(props.courseId)
-
-          // Then go to to their courses page
-          props.setPage("userCourses")
-
-        })
-        .catch(error=>{          
-          displayErrorMessage(error.message)
-        })
-    
-      }
-
-    function displayErrorMessage(errorMessage){
-        if(errorMessage === "Firebase: Error (auth/configuration-not-found).")
-            setErrorMessage("User not found, please check input.")
-        else if(errorMessage === "Firebase: Error (auth/invalid-email).")
-            setErrorMessage("Invalid email, please check email.")
-        else if(errorMessage === "Firebase: Error (auth/internal-error).")
-            setErrorMessage("Login error, please check input.")
-        else
-            setErrorMessage(errorMessage)
-      }
-    
-      const [errorMessage, setErrorMessage] = useState(null)
-
   return (
     <div className='enroll'>        
         <div className="backButton" onClick={()=>props.setPage("browseCourses")}>Back</div>

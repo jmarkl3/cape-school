@@ -8,10 +8,10 @@ function Login({auth, userId, setPage}) {
 
     const [errorMessage, setErrorMessage] = useState("")
 
-    // This will be called on re-render (because no []) and check if use is signed in
+    // When user id changes check to see if there is a user, if not go to home screen
     useEffect(()=>{
         if(userId != null)
-            setPage("Courses", "from Login Page")
+            setPage("Courses")
         
     },[userId])
 

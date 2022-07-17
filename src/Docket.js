@@ -76,8 +76,26 @@ userCourses
 
 __________________________________________________
 ==================================================
-Sprint 3 6:30 - 6
+Sprint 3 4 - 5:30
 
+user profile info saves to db when press save
+user profile loads from db on page start
+if no data just doesn't fill in inputs
+
+enrollUser(courseId)
+  enrolls a user in a course by adding given course to their data set
+  enroll page puts selected course in user data then goes to the course page
+  if user is signed in and browses enroll button calles enrollUser, then goes to the page
+  now user courses should show in the userCourses page based on what was enrolled in
+
+view coures page loads from db
+  when user selecte view course the data for the course loads
+
+user data saves into db as user goes through course
+  when user presses next button the data goes into the db
+
+user data loads from db when they start the course
+  when the page loads info such as section step loads from the db
 
 
 __________________________________________________
@@ -86,18 +104,6 @@ Backlog
 
 
 
-user profile info saves to db
-user profile loads from db
-
-enrollUser(courseId)
-  enrolls a user in a course by adding given course to their data set
-  enroll page puts selected course in user data then goes to the course page
-  if user is signed in and browses enroll button calles enrollUser, then goes to the page
-
-user data saves into db as user goes through course
-user data loads from db when they start the course
-
-view coures page loads from db
 edit course page laods from db
 
 make changes in db for all edit functions:
@@ -152,7 +158,57 @@ on pressing save upload all to make sure it is syncronized
 
 __________________________________________________
 ==================================================
+UI Flows
 
+====================
+Flow 1 
+(Enroll)
+
+user selects browse courses
+course data loads and is displayed
+
+user selects view more / enroll button
+they go to enroll page
+put in user info and press enroll
+user is created
+course is put in their user in the db
+view course is loaded with course data
+
+user clicks next on the course page
+section step changes in state
+section step is saved in db
+
+====================
+Flow 2 
+(Resume course)
+
+user goes to home page (already logged in)
+they select courses tab
+courses they are enrolled in show on courses page
+the press continue
+viewCourse page displays
+user selects next on elements as above
+
+====================
+Flow 3
+(Enroll in second course)
+
+user is already signed in
+goes to courses
+their courses load
+selecte browser courses (top button)
+all courses load
+user selects enroll
+they go to a more info page
+they press enroll button
+course is added to their courses
+page redirects to viewCourse page
+user begins going through course
+
+
+
+__________________________________________________
+==================================================
 github
 branch
 auth

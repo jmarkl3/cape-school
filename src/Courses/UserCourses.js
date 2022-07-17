@@ -1,6 +1,14 @@
-import React from 'react'
+import { checkActionCode } from 'firebase/auth'
+import React, { useEffect } from 'react'
 
 function UserCourses(props) {
+
+    useEffect(()=>{
+        console.log("usercourses props.userId")
+        console.log(props.userId)
+        if(props.userId == null)
+            props.setPage("browseCourses")
+    },[])
 
     function coursesArray(){
         var tempArray = []
@@ -15,8 +23,9 @@ function UserCourses(props) {
     // Returns an array with the ids of each course the user is in
     function userCoursesArray(){
         if(props.userData == null){
-            props.setPage("browseCourses")
-            return
+            console.log("In UserCourses.js coursesArray: there is no user data:") 
+            console.log(props.userData)           
+            return []
         }
         var tempArray = []
         for(var userCourseId in props.userData.courses){
@@ -24,6 +33,9 @@ function UserCourses(props) {
             tempArray.push(userCourseId)
         }
         
+        console.log("userCourseArray: ")
+        console.log(tempArray)
+
         return tempArray
     }
     
