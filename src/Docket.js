@@ -4,6 +4,10 @@ __________________________________________________
  \====\\========== SPRINT GOALS ==========//====/
   ==============================================
 
+__________________________________________________
+==================================================
+Sprint 1: 10:30 - 12:00
+
 DONE
 firebase config
 DONE
@@ -26,12 +30,21 @@ logout button on account pagelogs out user
 DONE
 account page redirects to hom page on logout
 
+Enroll:
+DONE
 enroll creates user
-enroll tries to sign in user, if not then signes in
-enroll page goes to my courses page when user signes in
 
+DONE
+enroll page goes to courses page when user signs in
+
+DONE
+enroll page adds course to user data
+
+finished at 11:17
 __________________________________________________
 ==================================================
+Sprint 2 12:30 - 2
+
 
 connect to database
 put course data in firebase (verify in console)
@@ -42,6 +55,7 @@ get user data from firebase  (and just log it)
 
 __________________________________________________
 ==================================================
+Sprint 3 2:30 - 4
 
 enroll page puts selected course in user data
 then goes to the course page
@@ -49,6 +63,28 @@ then goes to the course page
 course page loads from data gathered from firebase
 update course data in firebase
 update user data in firebase
+
+__________________________________________________
+==================================================
+Sprint 4 4:30 - 6
+
+look at backlog
+
+__________________________________________________
+==================================================
+Backlog
+
+enroll page
+update styling: error message font
+display error message function
+put sign in link in error message for user already created: Firebase: Error (auth/email-already-in-use).
+
+search and browser courses buttons in topbar of userCourses page
+
+create course button on userCourses page
+only if they have admin attribute on their account
+
+payment
 
 __________________________________________________
 ==================================================

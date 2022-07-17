@@ -6,10 +6,10 @@ import UserCourses from "../Courses/UserCourses.js"
 import ViewCourse from "../Courses/ViewCourse.js"
 import EditCourse from "../Courses/EditCourse.js"
 
-function Courses() {
+function Courses(props) {
 
     // State Variables
-    const [page, setPage] = useState("userCourses")
+    const [page, setPage] = useState("browseCourses")
     const [courseId, setCourseId] = useState("course1")
     const [chapterId, setChapterId] = useState("chapter1")
     const [sectionId, setSectionId] = useState("section1")
@@ -613,8 +613,9 @@ function Courses() {
     
     // On Start
     useEffect(()=>{
-              
-    },[])
+        if(props.userId != null) 
+            setPage("userCourses")
+    },[props.userId])
 
     // Display functions
     function displayPage(){        
@@ -623,7 +624,15 @@ function Courses() {
         if(page === "userCourses")
             return <UserCourses   coursesData={coursesData} setPage={setPage} goToCourse={goToCourse} userData={userData}></UserCourses>
         if(page === "enroll")
-            return <Enroll coursesData={coursesData} goToCourse={goToCourse} courseId={courseId} setPage={setPage}></Enroll>
+            return <Enroll 
+                goToCourse={goToCourse} 
+                courseId={courseId} 
+                setPage={setPage}
+                auth={props.auth}
+                addCourse={addCourse}
+                coursesData={coursesData}
+            >
+            </Enroll>
         if(page === "viewCourse")
             return <ViewCourse 
                 coursesData={coursesData} 
@@ -703,7 +712,6 @@ function Courses() {
         // Go to the specified page
         setPage(_page)
     }    
-var a = "a"
     
     // Add functions
     function addCourse(){
@@ -1000,6 +1008,7 @@ var a = "a"
         //         return false
         //     }
 
+        
         // If only the cahpter is specified and its not there
         if(_chapterId != undefined)   
             if(userData.courses[courseId].chapters[_chapterId] === undefined){
@@ -1046,6 +1055,12 @@ var a = "a"
     function userDataPathExists(_chapterId, _sectionId, _elemetId){
         return false
 
+    }
+    function addCourse(_courseId){        
+        var tempUserData = userData
+        if(tempUserData.courses[_courseId]=== undefined)
+        tempUserData.courses[_courseId] = {}
+        setUserData(tempUserData)
     }
 
     return (

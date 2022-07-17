@@ -55,7 +55,7 @@ function UserCourses(props) {
                     <div className='bottomButtonHolder'>
                         <a className='button courseButton' onClick={()=>props.goToCourse(course.id,"editCourse")}>Edit Course</a>
                         <a className='button courseButton' onClick={()=>props.goToCourse(course.id,"viewCourse")}>Continue Course</a>
-                    </div>                
+                    </div>                                  
                 </div>
             </div>
         ))}           

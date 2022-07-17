@@ -78,7 +78,10 @@ function App() {
       ></Login>)
 
     if(page === "Courses")
-      return (<Courses/>)
+      return (<Courses
+        userId={userId}
+        auth={auth}
+      ></Courses>)
 
     if(page === "Account")
       return (<Account

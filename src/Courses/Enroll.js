@@ -2,7 +2,7 @@ import "../Styles/CourseEnroll.css"
 
 import React, {useState} from 'react'
 import cardImage from "../Images/shopping-cart-icon-transparent.png"
-
+import { createUserWithEmailAndPassword } from "firebase/auth"
 
 function Enroll(props) {
     
@@ -15,16 +15,20 @@ function Enroll(props) {
     
         console.log("attempting to enroll user with credentials: "+email+" and "+password)
     
-        // createUserWithEmailAndPassword(auth, email, password).then(userCredential=>{
-        //   console.log("enrolled user with uid: "+userCredential.user.uid)
-    
-        //   // connect to realtime database and put user data in here
-    
-        // })
-        // .catch(error=>{
-        //   console.log("error enrolling user: "+ error.message)
-        //   displayErrorMessage(error.message)
-        // })
+        createUserWithEmailAndPassword(props.auth, email, password).then(userCredential=>{          
+          
+          // If user is successfully created 
+          
+          // Put the selected courses in their user data
+          props.addCourse(props.courseId)
+
+          // Then go to to their courses page
+          props.setPage("userCourses")
+
+        })
+        .catch(error=>{          
+          displayErrorMessage(error.message)
+        })
     
       }
 
