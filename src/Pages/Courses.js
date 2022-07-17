@@ -5,6 +5,7 @@ import Enroll from "../Courses/Enroll.js"
 import UserCourses from "../Courses/UserCourses.js"
 import ViewCourse from "../Courses/ViewCourse.js"
 import EditCourse from "../Courses/EditCourse.js"
+import {getDatabase, ref, set, onValue} from "firebase/database"
 
 function Courses(props) {
 
@@ -15,6 +16,10 @@ function Courses(props) {
     const [sectionId, setSectionId] = useState("section1")
     const [randomNumberState, setRandomNumberState] = useState(10)
 
+    const database = getDatabase(props.app)
+
+    const userRef = ref(database, "/cape-school/users/"+props.userId)
+    const coarsesRef = ref(database, "/cape-school/courses/")
 
     // Data state
     const [coursesData, setCoursesData] = useState(
@@ -611,6 +616,39 @@ function Courses(props) {
         }
     })
     
+    function setUpDbListener(){
+        onValue(userRef, snapshot=>{
+            console.log("user data from db:")
+            console.log(snapshot.val())
+        })
+        onValue(coarsesRef, snapshot=>{
+            console.log("courses data from db:")
+            console.log(snapshot.val())
+        })
+    }
+
+    function uploadInitialUserData(){
+        console.log("attemptint to upload data")
+        set(ref(database, "cape-school/users/"+props.userId),userData)
+        .then(message=>{
+            console.log(message)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
+
+    function uploadInitialCourseData(){
+        console.log("attemptint to upload data")
+        set(ref(database, "cape-school/courses/"),coursesData.courses)
+        .then(message=>{
+            console.log(message)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
+
     // On Start
     useEffect(()=>{
         if(props.userId != null) 
@@ -1065,6 +1103,7 @@ function Courses(props) {
 
     return (
     <div className='page'>
+        <button onClick={setUpDbListener}>Upload Initial Data</button>
         {displayPage()}
     </div>
   )

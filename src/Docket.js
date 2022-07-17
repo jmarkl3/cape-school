@@ -43,19 +43,29 @@ enroll page adds course to user data
 finished at 11:17
 __________________________________________________
 ==================================================
-Sprint 2 12:30 - 2
+Sprint 2 2 - 3:30
 
 
+DONE
 connect to database
+
+DONE
 put course data in firebase (verify in console)
+
+DONE
 put user data in fireabse (verify in console)
+
+DONE
 get course data from firebase (and just log it)
+
+DONE
 get user data from firebase  (and just log it)
 
+2:19
 
 __________________________________________________
 ==================================================
-Sprint 3 2:30 - 4
+Sprint 3 6:30 - 6
 
 enroll page puts selected course in user data
 then goes to the course page
@@ -64,11 +74,6 @@ course page loads from data gathered from firebase
 update course data in firebase
 update user data in firebase
 
-__________________________________________________
-==================================================
-Sprint 4 4:30 - 6
-
-look at backlog
 
 __________________________________________________
 ==================================================
@@ -86,6 +91,8 @@ only if they have admin attribute on their account
 
 payment
 
+structure data for efficiency
+https://firebase.google.com/docs/database/web/structure-data
 __________________________________________________
 ==================================================
 
