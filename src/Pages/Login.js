@@ -11,9 +11,9 @@ function Login({auth, userId, setPage}) {
     // This will be called on re-render (because no []) and check if use is signed in
     useEffect(()=>{
         if(userId != null)
-            setPage("MyCourses", "from Login Page")
-        //     //window.location.assign("http://localhost:3000/MyCourses")
-    })
+            setPage("Courses", "from Login Page")
+        
+    },[userId])
 
     function displayErrorMessage(errorMessage){
         if(errorMessage === "Firebase: Error (auth/configuration-not-found).")
@@ -31,16 +31,10 @@ function Login({auth, userId, setPage}) {
         var email = document.getElementById("emailInput").value
         var password = document.getElementById("passwordInput").value
 
-        console.log("clicked sign in button with email and pass: "+email+" "+password)
-
-        console.log("auth: ")
-        console.log(auth)
-
         signInWithEmailAndPassword(auth, email, password).then(userCredential =>{            
-            console.log("user signed in with uid: "+userCredential.user.uid)
+            
         })
-        .catch(error=>{
-            console.log("login attempt with error message: "+error.message)
+        .catch(error=>{            
             displayErrorMessage(error.message)
         })
     }    

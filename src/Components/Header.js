@@ -11,11 +11,7 @@ function Header({userId, setPage}) {
                 <li><a onClick={(event)=>setPage("Home", event)}>HOME</a></li>
                 <li><a onClick={()=>setPage("About")}>ABOUT</a></li>
                 <li><a onClick={()=>setPage("Contact")}>CONTACT</a></li>
-                {userId == null ? 
-                  <li><a onClick={()=>setPage("Courses")}>COURSES</a></li>
-                  :
-                  <li><a onClick={()=>setPage("MyCourses")}>COURSES</a></li>
-                }
+                <li><a onClick={()=>setPage("Courses")}>COURSES</a></li>                  
                 {userId == null ? 
                   <li><a onClick={()=>setPage("Login")}>LOGIN</a></li>                
                   :
