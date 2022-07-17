@@ -19,7 +19,7 @@ function Courses(props) {
     const database = getDatabase(props.app)
 
     const userRef = ref(database, "/cape-school/users/"+props.userId)
-    const coarsesRef = ref(database, "/cape-school/courses/")
+    const coursesRef = ref(database, "/cape-school/courses/")
 
     // Data state
     const [coursesData, setCoursesData] = useState(
@@ -615,52 +615,29 @@ function Courses(props) {
             },
         }
     })
-    
-    function setUpDbListener(){
-        onValue(userRef, snapshot=>{
-            console.log("user data from db:")
-            console.log(snapshot.val())
-        })
-        onValue(coarsesRef, snapshot=>{
-            console.log("courses data from db:")
-            console.log(snapshot.val())
-        })
-    }
 
-    function uploadInitialUserData(){
-        console.log("attemptint to upload data")
-        set(ref(database, "cape-school/users/"+props.userId),userData)
-        .then(message=>{
-            console.log(message)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-    }
-
-    function uploadInitialCourseData(){
-        console.log("attemptint to upload data")
-        set(ref(database, "cape-school/courses/"),coursesData.courses)
-        .then(message=>{
-            console.log(message)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-    }
 
     // On Start
     useEffect(()=>{
         if(props.userId != null) 
             setPage("userCourses")
+        
+        setUpDbListeners()
     },[props.userId])
+
 
     // Display functions
     function displayPage(){        
         if(page === "browseCourses")
             return <BrowseCourses coursesData={coursesData} setPage={setPage} goToCourse={goToCourse} ></BrowseCourses>
         if(page === "userCourses")
-            return <UserCourses   coursesData={coursesData} setPage={setPage} goToCourse={goToCourse} userData={userData}></UserCourses>
+            return <UserCourses   
+                coursesData={coursesData} 
+                setPage={setPage} 
+                goToCourse={goToCourse} 
+                userData={userData}
+            >
+            </UserCourses>
         if(page === "enroll")
             return <Enroll 
                 goToCourse={goToCourse} 
@@ -751,6 +728,44 @@ function Courses(props) {
         setPage(_page)
     }    
     
+
+    // Firebase functions
+    function setUpDbListeners(){
+        onValue(userRef, snapshot=>{
+            console.log("user data from db:")
+            console.log(snapshot.val())
+            setUserData(snapshot.val())
+        })
+        onValue(coursesRef, snapshot=>{
+            console.log("courses data from db:")
+            console.log(snapshot.val())
+            setCoursesData({courses:snapshot.val()})
+        })
+    }
+
+    function uploadInitialUserData(){
+        console.log("attemptint to upload data")
+        set(ref(database, "cape-school/users/"+props.userId),userData)
+        .then(message=>{
+            console.log(message)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
+
+    function uploadInitialCourseData(){
+        console.log("attemptint to upload data")
+        set(ref(database, "cape-school/courses/"),coursesData.courses)
+        .then(message=>{
+            console.log(message)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
+
+
     // Add functions
     function addCourse(){
         var newCourseId = "course"+Math.random(0,10000)
@@ -983,7 +998,21 @@ function Courses(props) {
                             type:"text",
                             content:["add content here"]                        
                 }
-                setCoursesData(newCourseData)
+                // Here modifying the course data and uploading the whole thing
+                set(ref(database, "cape-school/courses/"+courseId), newCourseData.courses[courseId])
+
+                //setCoursesData(newCourseData)
+
+                // Would be a lot better to add at the specific point
+
+                // and only have to onValue specific part that changes
+
+                // Or maybe not even have to onvalue, can change in db by uploading what is needed and change local state
+
+                // When pressing save local state could be uploaded to make sure
+
+                // This way realtime changes could be done efficiently
+
                 return
             }
     }
@@ -1103,7 +1132,7 @@ function Courses(props) {
 
     return (
     <div className='page'>
-        <button onClick={setUpDbListener}>Upload Initial Data</button>
+        <button onClick={setUpDbListeners}>Upload Initial Data</button>
         {displayPage()}
     </div>
   )

@@ -14,12 +14,16 @@ function UserCourses(props) {
 
     // Returns an array with the ids of each course the user is in
     function userCoursesArray(){
+        if(props.userData == null){
+            props.setPage("browseCourses")
+            return
+        }
         var tempArray = []
         for(var userCourseId in props.userData.courses){
             
             tempArray.push(userCourseId)
         }
-
+        
         return tempArray
     }
     
@@ -27,6 +31,12 @@ function UserCourses(props) {
     function courseDataArray(idArray){
         var tempArray = []
         for(var id in idArray){
+            if(props.coursesData.courses == undefined){
+                console.log("undefined course data: ")
+                console.log(props.coursesData)
+                continue
+            }
+
             var courseData = props.coursesData.courses[idArray[id]]            
             if(courseData === undefined){
                 courseData = {}
