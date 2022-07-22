@@ -1,56 +1,57 @@
 import "../Styles/CourseEnroll.css"
 
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import cardImage from "../Images/shopping-cart-icon-transparent.png"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 
-function Enroll(props) {
+function Enroll2(props) {
     
-  const [errorMessage, setErrorMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
+    const [courseData, setCourseData] = useState({})
 
-  function enrollNewUser(){
+    useEffect(()=>{
+        setCourseData(props.courseListData(props.courseId))
+    },[])
 
-      // If there is a user signed in enroll them
-      if(props.userId != null){
+    function enrollNewUser(){        
 
-        // This will put the course in the user data in the db, set the courseId, and change the page to viewCourse
-        props.enrollInCourse(props.userId, props.courseId)
+        // If there is a user signed in enroll them
+        if(props.userId != null){
+
+            // This will put the course in the user data in the db, set the courseId, and change the page to viewCourse
+            props.enrollUser(props.userId, props.courseId)            
+            return
+    
+        }
+
+        // If there is no user signed in create one
+
+        var name = document.getElementById("nameInput").value
+        var email = document.getElementById("emailInput").value
+        var phone = document.getElementById("phoneInput").value
+        var password = document.getElementById("passwordInput").value
         
-        return
- 
-      }
+        createUserWithEmailAndPassword(props.auth, email, password).then(userCredential=>{          
 
-      // If there is no user signed in create one
+            // This will put the course in the user data in the db (creating the user), set the courseId, and change the page to viewCourse
+            props.enrollUser(userCredential.user.uid, props.courseId)            
 
-      var name = document.getElementById("nameInput").value
-      var email = document.getElementById("emailInput").value
-      var phone = document.getElementById("phoneInput").value
-      var password = document.getElementById("passwordInput").value
-  
-      console.log("attempting to enroll user with credentials: "+email+" and "+password)
-  
-      createUserWithEmailAndPassword(props.auth, email, password).then(userCredential=>{          
+        })
+        .catch(error=>{          
+            displayErrorMessage(error.message)
+        })        
+    }
 
-        // This will put the course in the user data in the db (creating the user), set the courseId, and change the page to viewCourse
-        props.enrollInCourse(userCredential.user.uid, props.courseId)
-
-      })
-      .catch(error=>{          
-        displayErrorMessage(error.message)
-      })
-  
-  }
-
-  function displayErrorMessage(errorMessage){
-      if(errorMessage === "Firebase: Error (auth/configuration-not-found).")
-          setErrorMessage("User not found, please check input.")
-      else if(errorMessage === "Firebase: Error (auth/invalid-email).")
-          setErrorMessage("Invalid email, please check email.")
-      else if(errorMessage === "Firebase: Error (auth/internal-error).")
-          setErrorMessage("Login error, please check input.")
-      else
-          setErrorMessage(errorMessage)
-  }        
+    function displayErrorMessage(errorMessage){
+        if(errorMessage === "Firebase: Error (auth/configuration-not-found).")
+            setErrorMessage("User not found, please check input.")
+        else if(errorMessage === "Firebase: Error (auth/invalid-email).")
+            setErrorMessage("Invalid email, please check email.")
+        else if(errorMessage === "Firebase: Error (auth/internal-error).")
+            setErrorMessage("Login error, please check input.")
+        else
+            setErrorMessage(errorMessage)
+    }        
 
   return (
     <div className='enroll'>        
@@ -59,12 +60,12 @@ function Enroll(props) {
             <div className={'enrollHalf '+props.userId != null && " enrollWhole"}>
                 <div className='priceContainer'>
                   <div className='freeModules'>                    
-                    <div className='enrollTitle'>{props.coursesList[props.courseId].name}</div>                    
+                    <div className='enrollTitle'>{courseData.title+" a "}</div>                    
                   </div>
                   <div className='priceBox'>
                     <img className='cardImage' src={cardImage}></img>
-                    <div className='currentPrice'>$129</div>
-                    <div className='originalPrice'>$349</div>
+                    <div className='currentPrice'>{courseData.cost}</div>
+                    <div className='originalPrice'>{courseData.prevCost}</div>
                   </div>
                   <div>
                     <div className='freeModulesTitle'>
@@ -102,4 +103,4 @@ function Enroll(props) {
   )
 }
 
-export default Enroll
+export default Enroll2

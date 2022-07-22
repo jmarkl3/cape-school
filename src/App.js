@@ -11,7 +11,7 @@ import Login from './Pages/Login.js'
 import Courses from './Pages/Courses.js'
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+import Courses2 from './Pages/Courses2';
 
 function App() {
   
@@ -76,12 +76,12 @@ function App() {
       ></Login>)
 
     if(page === "Courses")
-      return (<Courses
+      return (<Courses2
         userId={userId}
         auth={auth}
         app={app}
         coursePage={coursePage}
-      ></Courses>)
+      ></Courses2>)
 
     if(page === "Account")
       return (<Account

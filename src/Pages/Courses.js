@@ -5,653 +5,71 @@ import Enroll from "../Courses/Enroll.js"
 import UserCourses from "../Courses/UserCourses.js"
 import ViewCourse from "../Courses/ViewCourse.js"
 import EditCourse from "../Courses/EditCourse.js"
-import {getDatabase, ref, set, onValue} from "firebase/database"
+import {getDatabase, ref, set, onValue, push, get, remove, update} from "firebase/database"
+import { connectAuthEmulator } from 'firebase/auth'
 
 function Courses(props) {
 
     // State Variables
-    const [page, setPage] = useState("browseCourses")
     const [courseId, setCourseId] = useState("course1")
-    const [chapterId, setChapterId] = useState("chapter1")
-    const [sectionId, setSectionId] = useState("section1")
-    const [randomNumberState, setRandomNumberState] = useState(10)
-
-    const database = getDatabase(props.app)
-
-    const userRef = ref(database, "/cape-school/users/"+props.userId)
-    const coursesRef = ref(database, "/cape-school/courses/")
-
+    const [chapterId, setChapterId] = useState(null)
+    const [sectionId, setSectionId] = useState(null)
     const [initialLoad, setInitialLoad] = useState(true)
-
-    // Data state
+    const [randomNumberState, setRandomNumberState] = useState(10)
+    const [userCourseList, setUserCourseList] = useState([])
+    
+    // State Variables
+    const [page, setPage] = useState("browseCourses")
+    const [coursesList, setCoursesList] = useState({})
+    const [courseData, setCourseData] = useState({})
+    const [userData, setUserData] = useState({})  
     
     const [coursesData, setCoursesData] = useState({})
-    // const [coursesData, setCoursesData] = useState(
-    //     {
-    //         courses:{
-    //             course1:{
-    //                 name:"this is the first course",
-    //                 imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
-    //                 description:"this is the description of the first course",
-    //                 chapters:{
-    //                     chapter1:{
-    //                         title:"this is the first chapter a",
-    //                         sections:{
-    //                             section1:{
-    //                                 title:"this is the first section a",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"title",
-    //                                         title:"this is a title element from the first chapter and first section",
-    //                                         content:[
-    //                                             "part one of the first element in the first chapter",
-    //                                             "part one of the first element a",
-    //                                             "part one of the first element a",
-    //                                             "part one of the first element a",
-    //                                         ]
-    //                                     },
-    //                                     element2:{
-    //                                         type:"text",
-    //                                         title:"this is a text element in the first chapter",
-    //                                         content:[
-    //                                             "part one of the first element in the first chapter in the first section in the second element",                                            
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element3:{
-    //                                         type:"question",
-    //                                         title:"this is a question element",
-    //                                         content:[
-    //                                             "part one of the first element answer",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element4:{                                    
-    //                                         type:"image",
-    //                                         title:"this is an image element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element5:{                                    
-    //                                         type:"video",
-    //                                         title:"this is a video element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                 }
-    //                             },
-    //                             section2:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"title",
-    //                                         title:"this is a title element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element2:{
-    //                                         type:"text",
-    //                                         title:"this is a text element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element3:{
-    //                                         type:"question",
-    //                                         title:"this is a question element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element4:{                                    
-    //                                         type:"image",
-    //                                         title:"this is an image element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element5:{                                    
-    //                                         type:"video",
-    //                                         title:"this is a video element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                 }
-    //                             }
-    //                         }
-    //                     },
-    //                     chapter2:{
-    //                         title:"this is the second chapter",
-    //                         sections:{
-    //                             section1:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"title",
-    //                                         title:"this is a title element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element2:{
-    //                                         type:"text",
-    //                                         title:"this is a text element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element3:{
-    //                                         type:"question",
-    //                                         title:"this is a question element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element4:{                                    
-    //                                         type:"image",
-    //                                         title:"this is an image element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element5:{                                    
-    //                                         type:"video",
-    //                                         title:"this is a video element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                 }
-    //                             },
-    //                             section2:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"title",
-    //                                         title:"this is a title element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element2:{
-    //                                         type:"text",
-    //                                         title:"this is a text element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element3:{
-    //                                         type:"question",
-    //                                         title:"this is a question element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element4:{                                    
-    //                                         type:"image",
-    //                                         title:"this is an image element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element5:{                                    
-    //                                         type:"video",
-    //                                         title:"this is a video element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                 }
-    //                             }
-    //                         }
-    //                     },
-    //                     chapter3:{
-    //                         title:"this is the first chapter",
-    //                         sections:{
-    //                             section1:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"title",
-    //                                         title:"this is a title element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element2:{
-    //                                         type:"text",
-    //                                         title:"this is a text element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element3:{
-    //                                         type:"question",
-    //                                         title:"this is a question element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element4:{                                    
-    //                                         type:"image",
-    //                                         title:"this is an image element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element5:{                                    
-    //                                         type:"video",
-    //                                         title:"this is a video element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                 }
-    //                             },
-    //                             section2:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"title",
-    //                                         title:"this is a title element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element2:{
-    //                                         type:"text",
-    //                                         title:"this is a text element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element3:{
-    //                                         type:"question",
-    //                                         title:"this is a question element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element4:{                                    
-    //                                         type:"image",
-    //                                         title:"this is an image element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element5:{                                    
-    //                                         type:"video",
-    //                                         title:"this is a video element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                 }
-    //                             }
-    //                         }
-    //                     },
-    //                     chapter4:{
-    //                         title:"this is the second chapter",
-    //                         sections:{
-    //                             section1:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"title",
-    //                                         title:"this is a title element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element2:{
-    //                                         type:"text",
-    //                                         title:"this is a text element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element3:{
-    //                                         type:"question",
-    //                                         title:"this is a question element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element4:{                                    
-    //                                         type:"image",
-    //                                         title:"this is an image element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element5:{                                    
-    //                                         type:"video",
-    //                                         title:"this is a video element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                 }
-    //                             },
-    //                             section2:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"title",
-    //                                         title:"this is a title element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element2:{
-    //                                         type:"text",
-    //                                         title:"this is a text element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element3:{
-    //                                         type:"question",
-    //                                         title:"this is a question element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element4:{                                    
-    //                                         type:"image",
-    //                                         title:"this is an image element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                     element5:{                                    
-    //                                         type:"video",
-    //                                         title:"this is a video element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     },
-    //                                 }
-    //                             }
-    //                         }
-    //                     },
-    //                 }
-    //             },
-    //             course2:{
-    //                 name:"this is the second course",
-    //                 imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
-    //                 description:"this is the description of the first course",
-    //                 chapters:{
-    //                     chapter1:{
-    //                         title:"this is the first chapter",
-    //                         sections:{
-    //                             section1:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"text",
-    //                                         title:"this is the first element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     }
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             },
-    //             course3:{
-    //                 name:"this is the third course",
-    //                 imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
-    //                 description:"this is the description of the first course",
-    //                 chapters:{
-    //                     chapter1:{
-    //                         title:"this is the first chapter",
-    //                         sections:{
-    //                             section1:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"text",
-    //                                         title:"this is the first element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     }
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             },
-    //             course4:{
-    //                 name:"this is the fourth course",
-    //                 imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
-    //                 description:"this is the description of the first course",
-    //                 chapters:{
-    //                     chapter1:{
-    //                         title:"this is the first chapter",
-    //                         sections:{
-    //                             section1:{
-    //                                 title:"this is the first section",
-    //                                 elements:{
-    //                                     element1:{
-    //                                         type:"text",
-    //                                         title:"this is the first element",
-    //                                         content:[
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                             "part one of the first element",
-    //                                         ]
-    //                                     }
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             },
-    //         }
-    //     }
-    // )    
-    
-    const [userData, setUserData] = useState({
-        name:"user name",
-        phone:"phone number",
-        courses:{
-            course1:{
-                chapters:{
-                    chapter1:{
-                        sections:{
-                            section1:{
-                                complte:false,
-                                step:4,
-                                elements:{
-                                    element1:{
-                                        complete:true,
-                                        index:2
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            course2:{
-                chapters:{
-                    chapter1:{
-                        sections:{
-                            section1:{
-                                elements:{
-                                    element1:"complete",
-                                    element2:2,
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-        }
-    })
 
+    // Get a reference to the database
+    const database = getDatabase(props.app)   
 
-    // On Start
     useEffect(()=>{
-        // if(props.userId != null) 
-        //     setPage("userCourses")
-        if(props.coursePage != null && props.coursePage != page)
-            setPage(props.coursePage)
-        console.log("in Courses.js useEffect setting course page to "+props.coursePage)
-        
-        if(initialLoad){
-            setUpDbListeners()
-            setInitialLoad(false)
-        }
-    },[])
 
+        // If there is a user signed in go to user courses initially
+        if(props.userId != null)
+            setPage("userCourses")
+
+        // Get the courses list and user data from the db
+        getCoursesList()
+
+        // Get list of course id's of courses user is enrolled in
+
+
+        // Gets all user data
+        getUserData()
+
+    },[])
 
     // Display functions
     function displayPage(){        
         if(page === "browseCourses")
             return <BrowseCourses 
-            coursesData={coursesData} 
-            setPage={setPage} 
-            goToCourse={goToCourse} 
-        >            
-        </BrowseCourses>
+                // For the back button
+                setPage={setPage} 
+                // This list is displayed
+                coursesList={coursesList}
+                // This is the action that can be taken on the courses in the list
+                openEnrollPage={openEnrollPage}
+            >            
+            </BrowseCourses>
         if(page === "userCourses")
             return <UserCourses   
-                coursesData={coursesData} 
+                // For the back button
                 setPage={setPage} 
+                // For continue course button
                 goToCourse={goToCourse} 
+                // The courses in user courses are displayed from the coursesList 
                 userData={userData}
+                // If there is no user signed in page changes to browseCourses
                 userId={props.userId}
+                // The elements in this list that match user course id's are displayed
+                coursesList={coursesList}
             >
             </UserCourses>
         if(page === "enroll")
@@ -663,10 +81,13 @@ function Courses(props) {
                 addCourse={addCourse}
                 coursesData={coursesData}
                 enrollInCourse={enrollInCourse}
+                coursesList={coursesList}
+                userId={props.userId}
             >
             </Enroll>
         if(page === "viewCourse")
             return <ViewCourse 
+                courseData={courseData}
                 coursesData={coursesData} 
                 courseId={courseId} 
                 chapterId={chapterId} 
@@ -713,53 +134,200 @@ function Courses(props) {
                 pathExists={pathExists}
                 updateElement={updateElement}
                 deleteContent={deleteContent}
-                addContent={addContent}                
+                addContent={addContent}            
+                courseData={courseData}    
             ></EditCourse>
-    }
+    }  
+
     // Nav functions
+    function openEnrollPage(_courseId){
+        setCourseId(_courseId)
+        setPage("enroll")
+    }
     function goToCourse(_courseId, _page){        
-        
+
         // Set Course
         setCourseId(_courseId)              
-        
-        // Or have the current chapter and section saved in user data
-        // For first time just show a welcome page telling user to select the first chapter from the side menu
-        
-        // Find first chapter                
-        var topChapter = null
-        var c = 0
-        for(var chapterIdTemp in coursesData.courses[courseId].chapters)
-            if(c++ == 0)
-                topChapter = chapterIdTemp
 
-        // Find first section
-        var topSection = null
-        var c = 0
-        for(var sectionIdTemp in coursesData.courses[courseId].chapters[topChapter].sections)
-            if(c++ == 0)
-                topSection = sectionIdTemp
-        
-        // Set the chapter and section to the top one
-        // If both null getting started element will show
-        setChapterId(topChapter)
-        setSectionId(topSection)
+        // So there is no section or chapter selected to start
+        setSectionId(null)
+        setChapterId(null)
 
-        // Go to the specified page
-        setPage(_page)
+        // Get the data for the specified course
+        onValue(ref(database, "cape-school/courseData/"+_courseId), snapshot=>{   
+            
+            var courseData = snapshot.val()
+            
+            setCourseData(courseData)       
+            
+            // Then get user data for this course
+            onValue(ref(database, "cape-school/users/"+props.userId+"/courses/"+_courseId), snapshot=>{
+                
+                // Get the user data and save it in state
+                var userData = snapshot.val()
+                setUserData(userData)
+
+                // Look for the current chapter
+                var currentChapter = userData.chapter                
+                // If its undefined get the first one
+                if(currentChapter == undefined)
+                    currentChapter = getFirstChapter(courseData)
+
+                // Look for the current section
+                currentSection = userData.section                
+                // If its not there get the first one
+                if(currentSection == undefined)
+                    var currentSection = getFirstSection(courseData, currentChapter)
+
+                // Save the current chapter and section in state
+                setChapterId(currentChapter)
+                setSectionId(currentSection)
+
+                // Set the page variable to go to the view or edit page
+                setPage(_page)
+            })
+        })
+
+        // Get user data such as progress and where they left off
+
+        if(props.userId == null)
+        return
+
+
+
+
+
     }    
-    
+    function enrollInCourse(_userId, _courseId){
 
-    // Firebase functions
+        //console.log("enrolling "+_userId+" into "+_courseId)
+
+        // Put it in a list of courses the user is in
+        update(ref(database, "/cape-school/users/"+props.userId+"/courseList/"+_courseId), {
+            enrolled:true
+        }).then(()=>{
+            
+            // Load the course data to be viewed in the view course page
+            getCourseData(_courseId)
+        
+            // After course is added to user data in db, go to view course
+            goToCourse(_courseId, "viewCourse")            
+
+        })
+
+        // Put the course in the user data in the db
+        update(ref(database, "/cape-school/users/"+props.userId+"/courses/"+_courseId), {
+            enrolled:true
+        })
+        
+    }
+
+    function getFirstChapter(_courseData){                   
+        for(var id in _courseData.chapters){
+          return id
+        }    
+        return null
+    }  
+    function getFirstSection(_courseData, _chapterId){    
+        for(var id in _courseData.chapters[_chapterId].sections){
+            return id
+        }
+        return null
+    }
+
+    // Get from db functions    
+    function getCoursesList(){
+        onValue(ref(database, "cape-school/courses"), snapshot=>{
+            //console.log("courses List: ")
+            //console.log(snapshot.val())
+            setCoursesList(snapshot.val())
+        })
+    }    
+    function getCourseData(_courseId){        
+        onValue(ref(database, "cape-school/courseData/"+_courseId), snapshot=>{   
+            setCourseData(snapshot.val())            
+        })
+    }
+    function getUserData(){
+        
+        if(props.userId == null)
+            return
+
+        onValue(ref(database, "cape-school/users/"+props.userId), snapshot=>{
+            setUserData(snapshot.val())
+        })
+    }
+    // Load userCourseList from "cape-school/users/"+userId+"/courseList"
+    function getUserCourseList(){        
+        onValue(ref(database, "cape-school/users/"+props.userId+"/courseList"), snap=>{
+            var tempArray = []
+            var courseListJson = snap.val()
+            for(var courseId in courseListJson)
+                tempArray.push(courseId)
+            setUserCourseList(tempArray)
+        })
+    }
+
+
+    // Firebase course functions
+    function newCourse(){
+        var newRef = push(ref(database, "cape-school/courses"))
+        
+        set(newRef, {
+            name:"This is a new course",
+            imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
+            description:"This is the description of the first course",
+            admin:props.userId,
+        }).then(()=>{
+            //console.log("uploading course Data")
+            set(ref(database, "cape-school/courseData/"+newRef.key),{
+                name:"This is a new course",
+                admin:props.userId,
+                chapters:{
+                    chapter1:{
+                        title:"this is chapter 1",
+                        sections:{
+                            section1:{
+                                title:"this is section 1",
+                                elements:{
+                                    element1:{
+                                        title:"this is element 1",
+                                        type:"title",
+                                        content:["part 1", "part 2"],
+                                        description:"this is a description"                                    
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }).then(()=>{
+                //console.log("opening new course")
+                goToCourse(newRef.key, "editCourse")
+            })
+        })
+    }
+    function deleteCourse(_courseId){
+        remove(ref(database, "cape-school/coursesList/"+_courseId))
+        remove(ref(database, "cape-school/coursesData/"+_courseId))
+    }
+
+
+    // ==== ==== // \\ Old functions // \\ ==== ==== \\
+
     function setUpDbListeners(){
+        
+        const coursesRef = ref(database, "/cape-school/courses/")
+
         onValue(coursesRef, snapshot=>{
-            console.log("courses data from db:")
-            console.log(snapshot.val())
-            setCoursesData({courses:snapshot.val()})
+            //console.log("courses data from db:")
+            //console.log(snapshot.val())
+            setCoursesList({courses:snapshot.val()})
         })
         
         onValue(ref(database, "/cape-school/users/"+props.userId), snapshot=>{
-            console.log("user data from db:")
-            console.log(snapshot.val())
+            //console.log("user data from db:")
+            //console.log(snapshot.val())
             
             if(snapshot.val() != null)
                 setUserData(snapshot.val())
@@ -767,31 +335,54 @@ function Courses(props) {
             // If there is no course data add it
             // it should be added when user enrolls in course though
         })
-        return
        
+    }
+    function loadCourseList(){        
+
+        const courseDataRef = ref(database, "/cape-school/courseData/"+courseId)
+
+        onValue(courseDataRef, snapshot=>{
+            setCoursesList({courses:snapshot.val()})
+        })
     }
 
     function uploadInitialUserData(){
-        console.log("attemptint to upload data")
+        //console.log("attemptint to upload data")
         set(ref(database, "cape-school/users/"+props.userId),userData)
         .then(message=>{
-            console.log(message)
+            //console.log(message)
         })
         .catch(err=>{
-            console.log(err)
+            //console.log(err)
         })
     }
 
     function uploadInitialCourseData(){
-        console.log("attemptint to upload data")
-        set(ref(database, "cape-school/courses/"),coursesData.courses)
+        //console.log("attemptint to upload data")
+        set(ref(database, "cape-school/courseData/"),coursesData.courses)
         .then(message=>{
-            console.log(message)
+            //console.log(message)
         })
         .catch(err=>{
-            console.log(err)
+            //console.log(err)
         })
     }
+    var courses = {
+        course1:{
+            name:"this is the first course",
+            imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
+            description:"this is the description of the first course",
+        },
+        course2:{
+            name:"this is the second course",
+            imageUrl:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fsnowcapped-trees-glistening-sunshine-winter-landscape-thick-snow-covering-forest-trail-stretching-ahead-70363761.jpg&f=1&nofb=",
+            description:"this is the description of the first course",
+        },
+    }
+    function putCoursesInDb(){
+        set(ref(database, "cape-school/courses"), courses)
+    }
+
 
 
     // Add functions
@@ -964,7 +555,7 @@ function Courses(props) {
                 returnStep = 0            
         }
                 
-        //console.log("returning step : "+returnStep +" for "+courseId+_chapterId + _sectionId + _elementId)        
+        ////console.log("returning step : "+returnStep +" for "+courseId+_chapterId + _sectionId + _elementId)        
         return returnStep
     }
 
@@ -1046,9 +637,12 @@ function Courses(props) {
     }
     function pathExists(_chapterId, _sectionId, _elemetId){        
 
+        //console.log("coursesData.courses["+courseId+"].chapters["+_chapterId+"]")
+        //console.log(coursesData)
         if(coursesData.courses[courseId].chapters[_chapterId] === undefined)
             return false            
         
+        //console.log("coursesData.courses["+courseId+"].chapters["+_chapterId+"].sections["+_sectionId)
         if(_sectionId != undefined)
             if(coursesData.courses[courseId].chapters[_chapterId].sections[_sectionId] === undefined)
                 return false
@@ -1062,7 +656,7 @@ function Courses(props) {
     // User Data
     function userDataEnsurePath(_chapterId, _sectionId, _elementId){                     
 
-        console.log("ensuring path "+_chapterId+" "+_sectionId+" "+_elementId)
+        //console.log("ensuring path "+_chapterId+" "+_sectionId+" "+_elementId)
 
         // // If all three are specified and chapter is not present (so none are present)
         // if(_sectionId != undefined && _sectionId != undefined && _elemetId != undefined)
@@ -1104,12 +698,12 @@ function Courses(props) {
         //     }
 
         if(userData === undefined || userData.courses[courseId] === undefined){
-            console.log("undefined course data")
+            //console.log("undefined course data")
             return
         }
 
         if(userData === undefined || userData.courses[courseId].chapters === undefined){
-            console.log("no chapters in user course data")
+            //console.log("no chapters in user course data")
             return
         }
 
@@ -1150,7 +744,7 @@ function Courses(props) {
             }
         
         
-        console.log("found path")
+        //console.log("found path")
 
 
         // Returns true if path already existed
@@ -1166,21 +760,17 @@ function Courses(props) {
         tempUserData.courses[_courseId] = {}
         //setUserData(tempUserData)
     }
-    function enrollInCourse(_userId, _courseId){
-        // Put the course in the user data in the db
-        set(ref(database, "/cape-school/users/"+props.userId+"/courses/"+_courseId), {
-            enrolled:true
-        }).then(()=>{
-            // After course is added to user data in db, go to view course
-            goToCourse(_courseId, "viewCourse")            
-        })
-    }
+
+
 
 
     return (
     <div className='page' key={page}>
-        <button onClick={setUpDbListeners}>Upload Initial Data</button>
+        {/* <button onClick={setUpDbListeners}>Upload Initial Data</button> */}
         {displayPage()}
+        <div>
+            <button onClick={newCourse}>Course Function</button>
+        </div>
     </div>
   )
 }

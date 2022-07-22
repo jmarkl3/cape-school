@@ -1,11 +1,14 @@
 import React from 'react'
 
 function BrowseCourses(props) {
-    
+
     function coursesArray(){
+        //console.log("in browse courses")
+        //console.log(props.coursesList)
         var tempArray = []
-        for(var courseId in props.coursesData.courses){
-            var courseDataObject = props.coursesData.courses[courseId]
+        for(var courseId in props.coursesList){
+            //console.log(courseId)
+            var courseDataObject = props.coursesList[courseId]
             courseDataObject.id = courseId
             tempArray.push(courseDataObject)
         }
@@ -13,13 +16,9 @@ function BrowseCourses(props) {
     }
 
     function enroll(course){
-        // If there is no user signed in
-        if(props.userId == null)
-            props.goToCourse(course.id,"enroll")
-        //else
-            //props.enrollUser(courseId)
 
-        // If there is a user signed in add the course to their user data and go to view course page
+        // The enroll page is different depending on if there is a user signed in or not
+        props.openEnrollPage(course.id)        
 
     }
 

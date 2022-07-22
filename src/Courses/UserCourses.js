@@ -4,37 +4,19 @@ import React, { useEffect } from 'react'
 function UserCourses(props) {
 
     useEffect(()=>{
-        console.log("usercourses props.userId")
-        console.log(props.userId)
+        // If there is no user signed in and somehow the page goes here redirect to browseCourses
         if(props.userId == null)
             props.setPage("browseCourses")
     },[])
 
-    function coursesArray(){
-        var tempArray = []
-        for(var courseId in props.coursesData.courses){
-            var courseDataObject = props.coursesData.courses[courseId]
-            courseDataObject.id = courseId
-            tempArray.push(courseDataObject)
-        }
-        return tempArray
-    }
-
     // Returns an array with the ids of each course the user is in
     function userCoursesArray(){
-        if(props.userData == null){
-            console.log("In UserCourses.js coursesArray: there is no user data:") 
-            console.log(props.userData)           
+        if(props.userData == null)         
             return []
-        }
-        var tempArray = []
-        for(var userCourseId in props.userData.courses){
-            
-            tempArray.push(userCourseId)
-        }
         
-        console.log("userCourseArray: ")
-        console.log(tempArray)
+        var tempArray = []
+        for(var userCourseId in props.userData.courses)            
+            tempArray.push(userCourseId)        
 
         return tempArray
     }
@@ -43,13 +25,13 @@ function UserCourses(props) {
     function courseDataArray(idArray){
         var tempArray = []
         for(var id in idArray){
-            if(props.coursesData.courses == undefined){
+            if(props.coursesList == undefined){
                 console.log("undefined course data: ")
                 console.log(props.coursesData)
                 continue
             }
 
-            var courseData = props.coursesData.courses[idArray[id]]            
+            var courseData = props.coursesList[idArray[id]]            
             if(courseData === undefined){
                 courseData = {}
                 courseData.name = "Course not found"
@@ -60,8 +42,15 @@ function UserCourses(props) {
         return tempArray
     }
 
+    function browseCourses(){
+        props.setPage("browseCourses")
+    }
+
   return (
     <div>                
+        <div>
+            <button onClick={browseCourses}>Browse Courses</button>
+        </div>
         {courseDataArray(userCoursesArray()).map((course, index)=>(
             <div className='courseBox' key={"course"+index}>
                 <div className='imageBox borderBox courseImageBox'>

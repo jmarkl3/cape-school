@@ -75,9 +75,13 @@ function Sidebar(props) {
     }
 
     // Returns an array of JSON objects
-    function chaptersArray(){        
+    function chaptersArray(){   
+        
+        if(props.courseData == null)
+            return [] 
+
         var chaptersArray = []      
-        var chaptersRef = props.coursesData.courses[props.courseId].chapters        
+        var chaptersRef = props.courseData.chapters       
         for(var chapterId in chaptersRef){
             var chapterData = chaptersRef[chapterId]
             chapterData.id = chapterId
