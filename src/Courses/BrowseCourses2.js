@@ -4,10 +4,6 @@ function BrowseCourses2(props) {
 
   const [editing, setEditing] = useState(false)
 
-  useEffect(()=>{
-    console.log("in browse courses 2")
-    console.log(props.coursesList)
-  })
 
   function enroll(course){
 
@@ -16,9 +12,10 @@ function BrowseCourses2(props) {
 
   }
 
-  function editCourse(){
+  function editCourse(){    
     setEditing(!editing)
   }
+
   function updateCourse(_courseId){
     var title = document.getElementById("titleInput"+_courseId).value
     var description = document.getElementById("descriptionInput"+_courseId).value
@@ -26,14 +23,17 @@ function BrowseCourses2(props) {
     props.updateCourse(_courseId, title, description)
   }
 
+
   return (
     <div className='page'>        
       <div>
         <button className='button' onClick={props.createCourse}>Add course</button>
-        <div className='button' onClick={()=>editCourse()}>{editing ? "Stop Editing":"Edit Courses"}</div>             
+        <div className='button' onClick={()=>editCourse()}>{editing ? "Stop Editing":"Edit Courses"}</div>   
+        {props.userId != null && <button className='button' onClick={()=>props.setPage("userCourses")}>Your Courses</button>}
+          
       </div>
     {
-        props.coursesList.map(course=>(
+        props.courseList.map(course=>(
             <div className='courseBox'>
               <div className='imageBox borderBox courseImageBox'>
                   <img src={course.imageUrl}></img>
@@ -52,8 +52,16 @@ function BrowseCourses2(props) {
                   }
                   {editing && <textarea className='courseDescriptionEdit' id={"descriptionInput"+course.id} defaultValue={course.description}></textarea>}
                   {editing && <div className='button bottomButton courseButton' onClick={()=>props.deleteCourse(course.id)}>Delete Course</div>       }      
-                  {editing && <div className='button bottomButton courseButton' onClick={()=>updateCourse(course.id)}>Save Changes</div>}        
-                  <a className='button bottomButton courseButton' onClick={()=>enroll(course)}>View Details / Enroll</a>   
+                  {editing && <div className='button bottomButton courseButton' onClick={()=>updateCourse(course.id)}>Save Changes</div>}      
+                  {(props.userIsInCourse(course.id) && !editing) ?                                          
+                      <div className='bottomButtonHolder'>
+                        <a className='button bottomButton courseButton'>Edit Course</a>   
+                        <a className='button bottomButton courseButton'>Continue Course</a>
+                      </div>                   
+                      :
+                      <a className='button bottomButton courseButton' onClick={()=>enroll(course)}>View Details / Enroll</a>                        
+                    }  
+                  
               </div>
             </div>
         ))
