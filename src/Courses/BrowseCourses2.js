@@ -8,7 +8,10 @@ function BrowseCourses2(props) {
   function enroll(course){
 
     // The enroll page is different depending on if there is a user signed in or not
-    props.openEnrollPage(course.id)        
+    props.openEnrollPage(course.id)     
+
+    // This just gives the course data directly and saves a function call (getCourseData(courseId)) in Courses2.js
+    //props.openEnrollPage2(course)   
 
   }
 
