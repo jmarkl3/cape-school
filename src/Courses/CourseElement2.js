@@ -15,7 +15,8 @@ function CourseElement2(props) {
 
     useEffect(()=>{
 
-        
+        if(props.elementData.correctIndex != undefined)
+            setCorrectIndex(props.elementData.correctIndex)
         
     }, [])
 
@@ -84,12 +85,10 @@ function CourseElement2(props) {
         return buttonsArray
     }
     function editButtons(_index){        
-        var buttonsArray = []
-                
+        var buttonsArray = []                
         buttonsArray.push(<div className='button' onClick={()=>props.deleteElement(props.elementData.id)}>Delete</div>)
-        buttonsArray.push(<div className='button' onClick={()=>props.addContent(props.elementData.id)}>Add Content</div>)
-        buttonsArray.push(<div className='button' onClick={()=>updateElement()}>Save</div>)
-        
+        buttonsArray.push(<div className='button' onClick={()=>props.addContent(props.elementData.id, props.elementData.content)}>Add Content</div>)
+        buttonsArray.push(<div className='button' onClick={()=>updateElement()}>Save</div>)        
         return buttonsArray
     }
 
@@ -115,22 +114,18 @@ function CourseElement2(props) {
     }    
     function textConditional(index){
         
-        if(props.elementData.content == undefined){
+        if(!Array.isArray(props.elementData.content)){
             return
-        }
-        else{
-            console.log("element contant: ")
-            console.log(props.elementData.content)
-        }
+        }        
 
         var key = "text"+props.courseId+props.sectionId+props.elementData.id+index
-        if(props.mode === "edit")
+        if(props.editMode && props.elementData.content != undefined)
             return(
                 props.elementData.content.map((content, index)=>(
                     <div key={"text"+index}>
                         <div className='elementText' key={key+index}>
                             <textarea key={key} className={'elementInput elementTextInput '+props.elementData.id+"Content"} defaultValue={content}></textarea>
-                            <div className='closeButton' onClick={()=>deleteContent(props.elementData.id, index)}>X</div>                    
+                            <div className='closeButton' onClick={()=>props.deleteContent(props.elementData.id, props.elementData.content, index)}>Delete text line</div>                    
                         </div>
                     </div>
                 ))
@@ -147,25 +142,29 @@ function CourseElement2(props) {
         
     }    
     function questionsConditional(){
-        return
+
+        if(!Array.isArray(props.elementData.content)){
+            return
+        }        
+
         var key = props.courseId+props.sectionId+props.elementData.id+props.randomNumberState
-        if(props.mode === "edit")
+        if(props.editMode && props.elementData.content != undefined)
             return props.elementData.content.map((content, index)=>(                
                 <div className='questionAnswer' key={"answer"+key+index}>
                     <input className={'elementInput '+props.elementData.id+"Content"} defaultValue={content}></input>
-                    <div className='closeButton' onClick={()=>props.deleteContent(props.chapterId, props.sectionId, props.elementData.id, index)}>X</div>                                        
+                    <div className='closeButton' onClick={()=>props.deleteContent(props.elementData.id, index)}>X</div>                                        
                     <div key={key+index+"correctInput"} onClick={()=>setCorrectIndex(index)} className={"questionRadioButon "+(correctIndex == index && " selectedRadioButton")} >Correct</div>
                 </div>
             ))
-        else
-            return props.elementData.content.map((content, index)=>(
-                <div className={'questionAnswer ' + (index == selected && "questionSelected")+answerCheckCss(index)} onClick={()=>selectAnswer(index)} key={key+index}>                                        
-                    {content}
-                </div>
-            ))
+        // else
+        //     return props.elementData.content.map((content, index)=>(
+        //         <div className={'questionAnswer ' + (index == selected && "questionSelected")+answerCheckCss(index)} onClick={()=>selectAnswer(index)} key={key+index}>                                        
+        //             {content}
+        //         </div>
+        //     ))
     }
     function displayImage(){
-        return
+        
         // if in edit mode display input field
         // either way display image from url in content[0]
         return (            
@@ -176,7 +175,7 @@ function CourseElement2(props) {
         )
     }
     function displayVideo(){
-        return
+        
         // if in edit mode display input field
         // either way display video from url in content[0]
         return (            
@@ -279,9 +278,7 @@ function CourseElement2(props) {
 
     // Save changes
     function updateElement(){
-        return
-        console.log("updating the element")
-        console.log("correctIndex: "+correctIndex) 
+
 
         var type = document.getElementById("typeSelect"+props.elementData.id).value                
         var title = document.getElementById("titleInput"+props.elementData.id).value
@@ -306,10 +303,7 @@ function CourseElement2(props) {
             correctIndex:correctIndex
         }
 
-        console.log("updating element: ")
-        console.log(elementData)
-
-        props.updateElement(props.chapterId, props.sectionId, props.elementData.id, elementData)
+        props.updateElement(props.elementData.id, elementData)
 
     }
 

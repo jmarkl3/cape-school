@@ -22,7 +22,7 @@ function EditCourse2(props) {
   // #endregion 
 
   return (
-    <div>
+    <div className='page'>
       <Sidebar2
         chapterList={props.chapterList}
         editMode={true}
@@ -73,6 +73,9 @@ function EditCourse2(props) {
           chapterId={props.chapterId}
           sectionId={props.sectionId}  
           deleteElement={props.deleteElement}        
+          updateElement={props.updateElement}
+          addContent={props.addContent}
+          deleteContent={props.deleteContent}
         >
         </CourseElement2>        
       ))}

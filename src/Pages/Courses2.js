@@ -22,46 +22,6 @@ function Courses2(props) {
     // ============================================================
     
     /*
-====================
-        Useful Info:
-====================
-
-        Course db structure: 
-
-        courseId:{
-            chapterList:{
-                chapter1Id:{
-                    title:"chapter 1 title"
-                    sections:{
-                        section1Id: "chapter 1 section 1 title",
-                        section2Id: "chapter 1 section 2 title"
-                    }
-                },
-                chapter2Id:{
-                    title:"chapter 2 title"
-                    sections:{
-                        section1Id: "chapter 2 section 1 title",
-                        section2Id: "chapter 2 section 2 title"
-                    }
-                }
-            },
-            chapterData:{
-                chapter1Id:{
-                    title:"chapter 1 title"
-                    sections:{
-                        section1Id: {
-                            title:"chapter 1 section 1 title",
-                            elements:{...}
-                        }
-                        section2Id: "chapter 1 section 2 title"
-                    }
-                },
-            }
-        }
-        
-        
-        //a/p/p/l/e
-        //aphid
 
 ====================
                Tasks
@@ -122,17 +82,65 @@ function Courses2(props) {
             what does courses, sections, and elements use?
             under chapters there are sections, not sectionData and there is no sectionList, maybe will go with courseList courses and  chapterList and chapters
 
-*
         display elements in EditCourse2.js page
           loadSectionData and put it in state
-          send to editCourse and map it
+          send to editCourse2.js and map it
 
         element functions (add, update, delete)
+            and page refreshes when element is deleted, called load elements again as .then of delete from db function
+*
+
+        element content functions (add, delete)
+        
+        all element types display (title, quiz, text, image, video)
 
         chapter and section titles display 
           get the titles from chapterList array and put in state somewhere, then send and display
           can set them from the sidebar because that info is mapped there, onClick on display lines can call props.setChapterTitleState(chapter.title) and props.setSectionTitleState(section.title)
+
+====================
+        Useful Info:
+====================
+
+        Course db structure: 
+
+        courseId:{
+            chapterList:{
+                chapter1Id:{
+                    title:"chapter 1 title"
+                    sections:{
+                        section1Id: "chapter 1 section 1 title",
+                        section2Id: "chapter 1 section 2 title"
+                    }
+                },
+                chapter2Id:{
+                    title:"chapter 2 title"
+                    sections:{
+                        section1Id: "chapter 2 section 1 title",
+                        section2Id: "chapter 2 section 2 title"
+                    }
+                }
+            },
+            chapterData:{
+                chapter1Id:{
+                    title:"chapter 1 title"
+                    sections:{
+                        section1Id: {
+                            title:"chapter 1 section 1 title",
+                            elements:{...}
+                        }
+                        section2Id: "chapter 1 section 2 title"
+                    }
+                },
+            }
+        }
+        
+        
+        //a/p/p/l/e
+        //aphid
+
     */
+
 
     //\\// ============================== ============================== Variables and Init ============================== ============================== \\//\\
     // #region
@@ -215,6 +223,9 @@ function Courses2(props) {
                     elementsArray={elementsArray}                    
                     deleteElement={deleteElement}    
                     refresh={refresh}        
+                    updateElement={updateElement}
+                    addContent={addContent}
+                    deleteContent={deleteContent}
                 ></EditCourse2>
             )
 
@@ -245,142 +256,7 @@ function Courses2(props) {
     }
 
     // #endregion
-    
-    //\\// ============================== ============================== Add Update & Delete (Courses) ============================== ============================== \\//\\    
-    // #region 
 
-    //\\// ===== ===== Course functions ===== ===== \\//\\
-        
-    function createCourse(){
-        var newCourseRef = push(ref(database, "cape-school/courses"))
-        update(ref(database, "cape-school/courses/"+newCourseRef.key), {enrolled:true})
-        update(ref(database, "cape-school/courseList/"+newCourseRef.key), 
-            {
-                title:"New Course",
-                description:"It was created in the create course funciton",
-                imageUrl:"http://www.destination360.com/north-america/us/wyoming/images/s/jackson.jpg",
-                cost:129,
-                prevCost:349,
-            }
-        )
-    }
-    
-    function updateCourse(_courseId, _title, _description){
-        update(ref(database, "cape-school/courseList/"+_courseId), {
-            title:_title,
-            description:_description
-        })
-        update(ref(database, "cape-school/courses/"+_courseId), {
-            title:_title,
-            description:_description
-        })
-    }
-    
-    function deleteCourse(_courseId){
-        remove(ref(database, "cape-school/courses/"+_courseId))
-        remove(ref(database, "cape-school/courseList/"+_courseId))
-    }
-
-    
-    //\\// ===== ===== Chapter functions ===== ===== \\//\\
-
-    function addChapter(){
-        var newRef = push(ref(database, "cape-school/courses/"+courseId+"/chapterList"))        
-        var newChapter = {
-            title:"New Chapter",
-            sections:{
-                section1:{
-                    title:"Section One"                    
-                }
-            }
-        }
-        set(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+newRef.key), newChapter)
-        set(ref(database, "cape-school/courses/"+courseId+"/chapters/"+newRef.key), newChapter)
-
-    }
-    function updateChapterTitle(newTitle){        
-        if(nou(chapterId))
-            return
-        update(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId), {title:newTitle})
-        update(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId), {title:newTitle})
-    }
-    function deleteChapter(){
-        console.log("deleteing chapter "+chapterId)
-        if(nou(chapterId))
-            return
-        remove(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId))
-        remove(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId))
-    }
-
-
-    //\\// ===== ===== Section functions ===== ===== \\//\\
-    function addSection(){
-                
-        if(chapterId == null || chapterId == undefined)        
-            // Can try to look for first chapter in selected course first
-            return
-
-        var newRef = push(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId+"/sections"))        
-        var newSection = {
-                title:"New Section",            
-            }
-        
-        set(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId+"/sections/"+newRef.key), newSection)
-        set(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+newRef.key), newSection)
-
-    }
-    function updateSectionTitle(newTitle){
-        if(nou(chapterId) || nou(sectionId))
-            return
-        update(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId+"/sections/"+sectionId), {title:newTitle})
-        update(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId), {title:newTitle})
-    }
-    function deleteSection(){
-        if(nou(chapterId) || nou(sectionId))
-            return
-        remove(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId+"/sections/"+sectionId))
-        remove(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId))
-    }
-
-    //\\// ===== ===== Element functions ===== ===== \\//\\
-    function addElement(){
-        
-        if(chapterId == null || chapterId == undefined || sectionId == null || sectionId == undefined)        
-            // Can try to look for first chapter in selected course first
-            return
-
-        var newRef = push(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements"))        
-        var newElement = {
-                title:"New Element",            
-                type:"text",
-                content:[],
-                description:"This is an element"
-            }
-                
-        set(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+newRef.key), newElement).then(()=>loadElements(chapterId, sectionId))
-
-    }
-    function deleteElement(_elementId){
-        if(nou(chapterId) || nou(sectionId))
-            return
-        remove(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId)).then(()=>loadElements(chapterId, sectionId))
-        
-    }
-    
-    // #endregion
-
-    //\\// ============================== ============================== Add Update & Delete (User) ============================== ============================== \\//\\    
-    // #region 
-        
-    function enrollUser(_userId, _courseId){
-        if(_userId == null)
-            return
-        // Put the course in their course list and also create an entry in the courseData section
-        set(ref(database, "cape-school/users/"+_userId+"/courseList/"+_courseId), true)
-        update(ref(database, "cape-school/users/"+_userId+"/courses/"+_courseId), {enrolled:true})
-    }
-    
-    // #endregion
     
     //\\// ============================== ============================== Loding (Courses)============================== ============================== \\//\\
     // #region 
@@ -509,6 +385,170 @@ function Courses2(props) {
 
     // #endregion
 
+
+    //\\// ============================== ============================== Add Update & Delete (Courses) ============================== ============================== \\//\\    
+    // #region 
+
+    //\\// ===== ===== Course functions ===== ===== \\//\\
+        
+    function createCourse(){
+        var newCourseRef = push(ref(database, "cape-school/courses"))
+        update(ref(database, "cape-school/courses/"+newCourseRef.key), {enrolled:true})
+        update(ref(database, "cape-school/courseList/"+newCourseRef.key), 
+            {
+                title:"New Course",
+                description:"It was created in the create course funciton",
+                imageUrl:"http://www.destination360.com/north-america/us/wyoming/images/s/jackson.jpg",
+                cost:129,
+                prevCost:349,
+            }
+        )
+    }
+    
+    function updateCourse(_courseId, _title, _description){
+        update(ref(database, "cape-school/courseList/"+_courseId), {
+            title:_title,
+            description:_description
+        })
+        update(ref(database, "cape-school/courses/"+_courseId), {
+            title:_title,
+            description:_description
+        })
+    }
+    
+    function deleteCourse(_courseId){
+        remove(ref(database, "cape-school/courses/"+_courseId))
+        remove(ref(database, "cape-school/courseList/"+_courseId))
+    }
+
+    
+    //\\// ===== ===== Chapter functions ===== ===== \\//\\
+
+    function addChapter(){
+        var newRef = push(ref(database, "cape-school/courses/"+courseId+"/chapterList"))        
+        var newChapter = {
+            title:"New Chapter",
+            sections:{
+                section1:{
+                    title:"Section One"                    
+                }
+            }
+        }
+        set(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+newRef.key), newChapter)
+        set(ref(database, "cape-school/courses/"+courseId+"/chapters/"+newRef.key), newChapter)
+
+    }
+    function updateChapterTitle(newTitle){        
+        if(nou(chapterId))
+            return
+        update(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId), {title:newTitle})
+        update(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId), {title:newTitle})
+    }
+    function deleteChapter(){
+        if(nou(chapterId))
+            return
+        remove(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId))
+        remove(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId))
+    }
+
+
+    //\\// ===== ===== Section functions ===== ===== \\//\\
+    function addSection(){
+                
+        if(chapterId == null || chapterId == undefined)        
+            // Can try to look for first chapter in selected course first
+            return
+
+        var newRef = push(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId+"/sections"))        
+        var newSection = {
+                title:"New Section",            
+            }
+        
+        set(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId+"/sections/"+newRef.key), newSection)
+        set(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+newRef.key), newSection)
+
+    }
+    function updateSectionTitle(newTitle){
+        if(nou(chapterId) || nou(sectionId))
+            return
+        update(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId+"/sections/"+sectionId), {title:newTitle})
+        update(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId), {title:newTitle})
+    }
+    function deleteSection(){
+        if(nou(chapterId) || nou(sectionId))
+            return
+        remove(ref(database, "cape-school/courses/"+courseId+"/chapterList/"+chapterId+"/sections/"+sectionId))
+        remove(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId))
+    }
+
+    //\\// ===== ===== Element functions ===== ===== \\//\\
+    function addElement(){
+        
+        if(chapterId == null || chapterId == undefined || sectionId == null || sectionId == undefined)        
+            // Can try to look for first chapter in selected course first
+            return
+
+        var newRef = push(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements"))        
+        var newElement = {
+                title:"New Element",            
+                type:"text",
+                content:["line one", "line two", "line three", "line four",],
+                description:"This is an element"
+            }
+                
+        set(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+newRef.key), newElement).then(()=>loadElements(chapterId, sectionId))
+
+    }
+    function updateElement(_elementId, _elementData){
+        console.log("setting "+_elementId+" to ")
+        console.log(_elementData)
+        update(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId), _elementData).then(loadElements(chapterId, sectionId))
+    }
+    function deleteElement(_elementId){
+        if(nou(chapterId) || nou(sectionId))
+            return
+        remove(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId)).then(()=>loadElements(chapterId, sectionId))
+        
+    }
+    
+    //\\// ===== ===== Content functions ===== ===== \\//\\
+    function addContent(_elementId, _elementContent){
+
+        var tempContent = _elementContent
+        if(!Array.isArray(_elementContent))
+            tempContent = []
+        
+        tempContent.push("New line")
+        
+        update(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId), {content:tempContent}).then(loadElements(chapterId, sectionId))
+              
+    }
+    function deleteContent(_elementId, _elementContent, index){
+        
+        var tempContent = []
+        tempContent = _elementContent
+        tempContent.pop(index)
+        
+        update(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId), {content:tempContent}).then(loadElements(chapterId, sectionId))
+                    
+    }
+
+    // #endregion
+
+    //\\// ============================== ============================== Add Update & Delete (User) ============================== ============================== \\//\\    
+    // #region 
+        
+    function enrollUser(_userId, _courseId){
+        if(_userId == null)
+            return
+        // Put the course in their course list and also create an entry in the courseData section
+        set(ref(database, "cape-school/users/"+_userId+"/courseList/"+_courseId), true)
+        update(ref(database, "cape-school/users/"+_userId+"/courses/"+_courseId), {enrolled:true})
+    }
+    
+    // #endregion
+    
+
     //\\// ============================== ============================== Helper Functions ============================== ============================== \\//\\
     // #region
 
@@ -520,6 +560,7 @@ function Courses2(props) {
 
 
     // #endregion
+
 
     return (
     <div>
