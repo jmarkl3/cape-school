@@ -5,6 +5,7 @@ import Enroll from '../Courses/Enroll2'
 import { checkActionCode } from 'firebase/auth'
 import UserCourses2 from '../Courses/UserCourses2'
 import EditCourse2 from '../Courses/EditCourse2'
+import ViewCourse2 from '../Courses/ViewCourse2'
 
 function Courses2(props) {
   
@@ -88,15 +89,45 @@ function Courses2(props) {
 
         element functions (add, update, delete)
             and page refreshes when element is deleted, called load elements again as .then of delete from db function
-*
 
         element content functions (add, delete)
         
         all element types display (title, quiz, text, image, video)
 
-        chapter and section titles display 
-          get the titles from chapterList array and put in state somewhere, then send and display
-          can set them from the sidebar because that info is mapped there, onClick on display lines can call props.setChapterTitleState(chapter.title) and props.setSectionTitleState(section.title)
+        viewCourse elements display
+        
+        viewCourse functionality
+        next button increaces a counter
+        content shows based on counter number        
+        button displays conditionally based on counter and number of content lines
+        elements display based on viewCourse couter step
+        viewCourse step goes up when element counter reached top
+
+        userData (section step) saves into db when user clicks continue
+        section step loads from db when section when section is pressed in sidebar
+        step that is loaded from db is reflected on viewCorse page
+
+
+        element step or elements up to loaded step display as complete
+
+        *        
+
+        questions
+        question answers can be selected
+        question answer submitted when submit button is pressed
+        question css changes based on correct or not    
+        question answers saved to db
+        question answer loaded from db
+        answer selection loaded from db and displayed
+        
+        bug: when switching from one section to another element step persists into an unrelated element        
+        
+        save position to db
+        load position from db
+        display loaded position
+        start from first chapter and first section if there is none saved
+
+        payment screen
 
 ====================
         Useful Info:
@@ -135,11 +166,37 @@ function Courses2(props) {
             }
         }
         
+        users{
+            userId:{
+                info:info,
+                courses:{
+                    courseId:{
+                        chapters:{
+                            chapterId:{
+                                complete:true
+                                sections:{
+                                    sectionId:{
+                                        complete:true
+                                        step:stepNumber
+                                        elements:{
+                                            elementId:stepNumber
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         
         //a/p/p/l/e
         //aphid
 
     */
+
+
 
 
     //\\// ============================== ============================== Variables and Init ============================== ============================== \\//\\
@@ -152,7 +209,10 @@ function Courses2(props) {
     const [chapterId, setChapterId] = useState(null)
     const [sectionId, setSectionId] = useState(null)    
     const [chapterList, setChapterList] = useState([])
-    const [elementsArray, setElementsArray] = useState([])
+    const [elementsArray, setElementsArray] = useState([])    
+    const [sectionPosition, setSectionPosition] = useState(0)
+    const [chapterPosition, setChapterPosition] = useState(0)
+    const [viewStep, setViewStep] = useState(0)
     const [refresh, setRefresh] = useState(0)
 
     const database = getDatabase(props.app)  
@@ -170,7 +230,6 @@ function Courses2(props) {
 
     //\\// ============================== ============================== Display functions ============================== ============================== \\//\\
     // #region
-    
     function displayPage(){
         if(page == "browseCourses")
             return (
@@ -211,7 +270,7 @@ function Courses2(props) {
                     addChapter={addChapter}
                     setChapterId={setChapterId}
                     addSection={addSection}
-                    setSectionId={setSectionId}
+                    setSection={setSection}
                     addElement={addElement}
                     sectionId={sectionId}
                     chapterId={chapterId}
@@ -226,7 +285,28 @@ function Courses2(props) {
                     updateElement={updateElement}
                     addContent={addContent}
                     deleteContent={deleteContent}
+                    setPage={setPage}                                       
+
                 ></EditCourse2>
+            )
+        if(page === "viewCourse")
+            return(
+                <ViewCourse2
+                    chapterList={chapterList}                    
+                    setChapterId={setChapterId}                                        
+                    setSection={setSection}                  
+                    sectionId={sectionId}
+                    chapterId={chapterId}                                                            
+                    loadElements={loadElements}
+                    elementsArray={elementsArray}                                        
+                    refresh={refresh}         
+                    setPage={setPage}          
+                    loadUserData={loadUserData}      
+                    saveStep={saveStep}        
+                    loadStep={loadStep}    
+                    viewStep={viewStep}    
+                    savePosition={savePosition}
+                ></ViewCourse2>
             )
 
 
@@ -245,19 +325,19 @@ function Courses2(props) {
         //setCourseData(_course)
         setPage("enroll")
     }
-    function viewCourse(_courseId){
-        
-    }
     function goToCourse(_courseId, page){
 
         setCourseId(_courseId)
         loadChapterList(_courseId)
-        setPage("editCourse")
+        setPage(page)
+        loadPosition(_courseId)
     }
 
     // #endregion
 
     
+
+
     //\\// ============================== ============================== Loding (Courses)============================== ============================== \\//\\
     // #region 
     
@@ -347,13 +427,23 @@ function Courses2(props) {
     //\\// ============================== ============================== Loding (User)============================== ============================== \\//\\
     // #region 
 
-    // Loads user's data for this course
-    function loadUserCourseData(_courseId){
-
+    function loadUserData(_chapterId, _sectionId){
+        onValue(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+_chapterId+"/sections/"+_sectionId), snap=>{            
+            //setUserSectionData(snap.val())            
+        })
     }
-    // Loads a list of all the coruses. Includes basic info such as name, image url, description, price. Puts an array in state
 
-    // Loads a list of all the courses the user is enrolled in
+    function loadStep(_chapterId, _sectionId){
+        // Set it to 0 initially for when switching sections because of flashing ahead
+        setViewStep(0)
+        onValue(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+_chapterId+"/sections/"+_sectionId+"/step"), snap=>{                      
+            var tempViewStep = snap.val()
+            if(tempViewStep == undefined)
+                tempViewStep = 0
+            setViewStep(tempViewStep)
+        })
+    }
+
     function loadUserCourseList(_courseList){
 
         if(props.userId == null)
@@ -383,7 +473,22 @@ function Courses2(props) {
         return returnValue
     }
 
+    function loadPosition(_courseId){
+        onValue(ref(database, "cape-school/users/"+props.userId+"/courses/"+_courseId+"/position"), snap=>{
+            if(snap.val()!= undefined){
+                setChapterPosition(snap.val().chapter)
+                setSectionPosition(snap.val().section)
+            }
+            else{
+                // get first chapter and section
+            }
+        })
+        setSectionPosition()
+    }
+
     // #endregion
+
+
 
 
     //\\// ============================== ============================== Add Update & Delete (Courses) ============================== ============================== \\//\\    
@@ -421,6 +526,10 @@ function Courses2(props) {
         remove(ref(database, "cape-school/courseList/"+_courseId))
     }
 
+    function setSection(_chapterId, _sectionId){
+        setChapterId(_chapterId)
+        setSectionId(_sectionId)
+    }
     
     //\\// ===== ===== Chapter functions ===== ===== \\//\\
 
@@ -500,9 +609,9 @@ function Courses2(props) {
 
     }
     function updateElement(_elementId, _elementData){
-        console.log("setting "+_elementId+" to ")
-        console.log(_elementData)
+
         update(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId), _elementData).then(loadElements(chapterId, sectionId))
+
     }
     function deleteElement(_elementId){
         if(nou(chapterId) || nou(sectionId))
@@ -525,9 +634,13 @@ function Courses2(props) {
     }
     function deleteContent(_elementId, _elementContent, index){
         
-        var tempContent = []
-        tempContent = _elementContent
-        tempContent.pop(index)
+        var tempContent = []        
+        var c = 0
+        _elementContent.forEach(line=>{
+            if(c++ != index){                
+                tempContent.push(line)
+            }
+        })        
         
         update(ref(database, "cape-school/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId), {content:tempContent}).then(loadElements(chapterId, sectionId))
                     
@@ -545,9 +658,23 @@ function Courses2(props) {
         set(ref(database, "cape-school/users/"+_userId+"/courseList/"+_courseId), true)
         update(ref(database, "cape-school/users/"+_userId+"/courses/"+_courseId), {enrolled:true})
     }
-    
+    function saveStep(_step){
+        set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/step"), _step)           
+    }
+    function savePosition(_chapterId, _sectionId){
+        set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/position"), {chapter: _chapterId, section:_sectionId, })           
+    }
+    function completeSection(){
+        set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/complete"), true)           
+    }
+    function completeChapter(){
+        set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+chapterId+"/complete"), true)           
+    }
+
     // #endregion
     
+
+
 
     //\\// ============================== ============================== Helper Functions ============================== ============================== \\//\\
     // #region

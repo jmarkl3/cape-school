@@ -18,6 +18,12 @@ function CourseElement2(props) {
         if(props.elementData.correctIndex != undefined)
             setCorrectIndex(props.elementData.correctIndex)
         
+        // if(props.step != undefined)
+        //     setStep(props.step)
+        
+        if(props.complete)
+            try{setStep(props.elementData.content.length)}catch{}
+        
     }, [])
 
     // #endregion 
@@ -63,7 +69,7 @@ function CourseElement2(props) {
 
     //\\// ===== ===== Buttons ===== ===== \\//\\
     function displayButtons(){        
-        if(props.mode === "edit")
+        if(props.editMode)
             return (
                 <div>
                     {editButtons()}
@@ -78,10 +84,19 @@ function CourseElement2(props) {
     }
     function viewButtons(){        
         var buttonsArray = []
-    
-        if(step < props.elementData.content.length)
-            buttonsArray.push(<div className='button' onClick={()=>nextStep()}>Next</div>)
-                        
+            
+        if(!props.complete){
+            // If there is no content array show continue button
+            if(!Array.isArray(props.elementData.content)) 
+                buttonsArray.push(<div className='button' onClick={()=>props.stepUp()}>Continue</div>)
+            // If step is beyond length of content array show continue button
+            else if(props.elementData.content.length <= step)
+                buttonsArray.push(<div className='button' onClick={()=>props.stepUp()}>Continue</div>)
+            // If step is below length of content array show next button
+            else
+                buttonsArray.push(<div className='button' onClick={()=>nextStep()}>Next</div>)  
+        }           
+
         return buttonsArray
     }
     function editButtons(_index){        
@@ -118,13 +133,13 @@ function CourseElement2(props) {
             return
         }        
 
-        var key = "text"+props.courseId+props.sectionId+props.elementData.id+index
+        var key = "text"+props.courseId+props.sectionId+props.elementData.id+index+Math.random()
         if(props.editMode && props.elementData.content != undefined)
             return(
                 props.elementData.content.map((content, index)=>(
                     <div key={"text"+index}>
                         <div className='elementText' key={key+index}>
-                            <textarea key={key} className={'elementInput elementTextInput '+props.elementData.id+"Content"} defaultValue={content}></textarea>
+                            <textarea key={key} className={'elementInput '+props.elementData.id+"Content"} defaultValue={content}></textarea>
                             <div className='closeButton' onClick={()=>props.deleteContent(props.elementData.id, props.elementData.content, index)}>Delete text line</div>                    
                         </div>
                     </div>
@@ -134,9 +149,14 @@ function CourseElement2(props) {
         else
             return(
                 props.elementData.content.map((content, index)=>(
-                    <div className='elementText' key={key+index}>
-                        {index <= step && content}
-                    </div>
+                    <div key={props.chapterId+props.sectionId+props.elementData.id+index}> 
+                    {         
+                        (step >= index || props.complete) &&
+                        <div className='elementText' key={key+index}>
+                            {index <= step && content}
+                        </div>                                              
+                    }
+                    </div> 
                 ))
             )
         
@@ -147,7 +167,7 @@ function CourseElement2(props) {
             return
         }        
 
-        var key = props.courseId+props.sectionId+props.elementData.id+props.randomNumberState
+        var key = props.courseId+props.sectionId+props.elementData.id+props.randomNumberState+Math.random()
         if(props.editMode && props.elementData.content != undefined)
             return props.elementData.content.map((content, index)=>(                
                 <div className='questionAnswer' key={"answer"+key+index}>
@@ -169,7 +189,7 @@ function CourseElement2(props) {
         // either way display image from url in content[0]
         return (            
             <div>
-                {props.mode === "edit" && <input className={'elementInput '+props.elementData.id+"Content"} defaultValue={props.elementData.content[0]}></input>}
+                {props.editMode && <input className={'elementInput '+props.elementData.id+"Content"} defaultValue={props.elementData.content[0]}></input>}
                 <div><img src={props.elementData.content[0]}></img></div>
             </div>            
         )
@@ -180,7 +200,7 @@ function CourseElement2(props) {
         // either way display video from url in content[0]
         return (            
             <div>
-                {props.mode === "edit" && <input className={'elementInput '+props.elementData.id+"Content"} defaultValue={props.elementData.content[0]}></input>}                
+                {props.editMode && <input className={'elementInput '+props.elementData.id+"Content"} defaultValue={props.elementData.content[0]}></input>}                
                 <iframe width="95%" height="500px" src={props.elementData.content[0]}></iframe>
             </div>            
         )
@@ -192,6 +212,7 @@ function CourseElement2(props) {
     // #region 
 
     function nextStep(){
+        setStep(step+1)
         return
         // Simple ones, just go to next section step
         if(props.elementData.type === "title"){
@@ -310,7 +331,8 @@ function CourseElement2(props) {
     // #endregion  
 
     return (
-        <div className='elementBox' key={props.randomNumberState+props.chapterId+props.sectionId+props.elementData.id}>          
+        <div className='elementBox'>     
+            {"complete: "+props.complete}
             {displayTypeSelector()}
             {displayTitle()}
             {displayContent()}            
@@ -320,3 +342,8 @@ function CourseElement2(props) {
 }
 
 export default CourseElement2
+
+CourseElement2.defaultProps = {
+    step : 0,
+    complete:false
+}

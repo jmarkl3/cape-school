@@ -36,8 +36,12 @@ function Sidebar(props) {
     //\\// ============================== ============================== Helper ============================== ============================== \\//\\    
     // #region 
     function sectionClick(_chapterId, _sectionId){
-        props.setSectionId(_sectionId)
+        props.setStep(0)
+        props.setSection(_chapterId, _sectionId)
         props.loadElements(_chapterId, _sectionId)
+        props.loadUserData(_chapterId, _sectionId)
+        props.loadStep(_chapterId, _sectionId)
+        props.savePosition(_chapterId, _sectionId)
     }
     // #endregion 
 
@@ -48,24 +52,30 @@ function Sidebar(props) {
         <div className='sidebarTitle'>
             Chapters        
         </div>
-        <div>
-            <div className={props.editMode ? "":"hide"}>
-                <div className='sidebarButton' onClick={(event)=>addChapter(event)}>Add Chapter</div>               
-                <div className='sidebarButton' onClick={(event)=>addSection(event)}>Add Section</div>       
-                <div className='sidebarButton' onClick={(event)=>addElement(event)}>Add Element</div>            
-            </div>
+
+        <div>            
+            {                
+                props.editMode &&                 
+                <div>
+                    <div className='sidebarButton' onClick={(event)=>addChapter(event)}>Add Chapter</div>               
+                    <div className='sidebarButton' onClick={(event)=>addSection(event)}>Add Section</div>       
+                    <div className='sidebarButton' onClick={(event)=>addElement(event)}>Add Element</div>            
+                </div>
+            }
+
             <div className='sidebarButton' onClick={()=>props.setPage("userCourses")}>Back to Courses</div>   
         </div>
 
         {props.chapterList.map((chapter, index)=>(
-            <div onClick={()=>props.setChapterId(chapter.id)} className="chapterLine" key={"chapter"+chapter.id+index}>
+            <div className="chapterLine" key={"chapter"+chapter.id+index}>
+            {/* <div onClick={()=>props.setChapterId(chapter.id)} className="chapterLine" key={"chapter"+chapter.id+index}> */}
                 <div className={((props.chapterId == chapter.id) && " chapterLineSelected")}>
                     {chapter.title}
                 </div>
-                <div className={'sectionLineContainer '+(chapter.id == props.chapterId && ' display')}>
+                <div className={'sectionLineContainer '+(chapter.id == props.chapterId ? ' display':"")}>
                     {chapter.sections.map((section, sectionIndex)=>(
                         <div onClick={()=>sectionClick(chapter.id, section.id)} className="sectionLine" key={"chapter"+chapter.id+"section"+section.id+sectionIndex} >
-                            <div className={(((props.sectionId == section.id) && (props.chapterId == chapter.id)) && " sectionLineSelected")}>
+                            <div className={(((props.sectionId == section.id) && (props.chapterId == chapter.id)) ? " sectionLineSelected":"")}>
                                 {section.title}
                             </div>
                         </div>
@@ -77,3 +87,10 @@ function Sidebar(props) {
   )
 }
 export default Sidebar
+
+Sidebar.defaultProps={
+    setStep:()=>{},
+    loadUserData:()=>{},
+    loadStep:()=>{console.log("no load step function")}, 
+    savePosition:()=>{}
+}

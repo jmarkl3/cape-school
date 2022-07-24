@@ -5,7 +5,7 @@ import CourseElement2 from './CourseElement2.js'
 function EditCourse2(props) {
 
   useEffect(()=>{
-    console.log(props.chapterId+" "+props.sectionId)
+
   })
 
   //\\// ============================== ============================== Update Chapter & Section Titles ============================== ============================== \\//\\    
@@ -29,11 +29,12 @@ function EditCourse2(props) {
         addChapter={props.addChapter}        
         setChapterId={props.setChapterId}
         addSection={props.addSection}
-        setSectionId={props.setSectionId}
+        setSection={props.setSection}
         addElement={props.addElement}
         sectionId={props.sectionId}
         chapterId={props.chapterId}
         loadElements={props.loadElements}
+        setPage={props.setPage}
       ></Sidebar2>
       {
         (props.chapterId != null) &&
@@ -68,7 +69,6 @@ function EditCourse2(props) {
       {props.elementsArray.map(element=>(
         <CourseElement2
           elementData={element}
-          mode="edit"
           editMode={true}
           chapterId={props.chapterId}
           sectionId={props.sectionId}  
@@ -82,6 +82,7 @@ function EditCourse2(props) {
 
     </div>
   )
+
 }
 
 export default EditCourse2
