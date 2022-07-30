@@ -380,5 +380,6 @@ export default CourseElement2
 
 CourseElement2.defaultProps = {
     step : 0,
-    complete:false
+    complete:false,
+    getAnswerChoice:()=>{},
 }

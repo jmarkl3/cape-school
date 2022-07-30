@@ -150,34 +150,23 @@ function Courses2(props) {
         checkbox shows next to complete sections
         checkbox shows next to complete chapters
 
+        display question answers from db
+            on each question load, if complete look in userData for the selected answer by calling props.getSelectedAnswer(_courseId, _chapterId, _sectionId, _elementId)
+
         *
           when the complete section button is pressed go to next section (and set proper variables)
             nextSection button finds next section, or next chapter, or completes course
-
-
-        display question answers from db
-          on each question load, if complete look in userData for the selected answer by calling props.getSelectedAnswer(_courseId, _chapterId, _sectionId, _elementId)
-
-        section completion status
-        chapter completion status
-        question answers
-
-        user data is used after being loaded from the db
-
-        question answers saved to db
-        question answer loaded from db
-        answer selection loaded from db and displayed
         
-        chapter and section completion status reflect on the sidebar
+        complete section doesn't show when section is already complete, but message saying it is complete does            
 
-        bug: when switching from one section to another element step persists into an unrelated element        
-        
-        save position to db
-        load position from db
-        display loaded position
-        start from first chapter and first section if there is none saved
+                        
+        start from first chapter and first section if there is no position saved
+
+        open sidebar on load, then close it right away
 
         payment screen
+
+        new ui
 */
     /*
 ====================

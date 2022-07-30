@@ -72,15 +72,15 @@ function Sidebar(props) {
         </div>}
         {open&& props.chapterList.map((chapter, index)=>(
             <div className="chapterLine" key={"chapter"+chapter.id+index}>
-                {props.isChapterComplete(chapter.id) && <div className='checkbox'></div>}
+                {!props.editMode && props.isChapterComplete(chapter.id) && <div className='checkbox'></div>}
             {/* <div onClick={()=>props.setChapterId(chapter.id)} className="chapterLine" key={"chapter"+chapter.id+index}> */}
-                <div className={((props.chapterId == chapter.id) && " chapterLineSelected")}>
+                <div className={" "+((props.chapterId == chapter.id) && " chapterLineSelected")}>
                     {chapter.title}
                 </div>
                 <div className={'sectionLineContainer '+(chapter.id == props.chapterId ? ' display':"")}>
                     {chapter.sections.map((section, sectionIndex)=>(
                         <div onClick={()=>sectionClick(chapter.id, section.id)} className="sectionLine" key={"chapter"+chapter.id+"section"+section.id+sectionIndex} >
-                            {props.isSectionComplete(chapter.id, section.id) && <div className='checkbox'></div>}
+                            {!props.editMode && props.isSectionComplete(chapter.id, section.id) && <div className='checkbox'></div>}
                             <div className={(((props.sectionId == section.id) && (props.chapterId == chapter.id)) ? " sectionLineSelected":"")}>
                                 {section.title}
                             </div>
@@ -99,5 +99,8 @@ Sidebar.defaultProps={
     setStep:()=>{console.log("no set step function ===============================================")},
     loadUserData:()=>{},
     loadStep:()=>{console.log("no load step function")}, 
-    savePosition:()=>{}
+    savePosition:()=>{},
+    isChapterComplete:()=>{return false},
+    isSectionComplete:()=>{return false},
+    getAnswerChoice:()=>{}
 }
