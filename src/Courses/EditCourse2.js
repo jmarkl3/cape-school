@@ -35,6 +35,7 @@ function EditCourse2(props) {
         chapterId={props.chapterId}
         loadElements={props.loadElements}
         setPage={props.setPage}
+        courseId={props.courseId}
       ></Sidebar2>
       {
         (props.chapterId != null) &&

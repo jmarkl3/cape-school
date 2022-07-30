@@ -49,6 +49,7 @@
     user-select: none;
     cursor: pointer;    
     background-color: rgb(0,120,160);
+    background-image: linear-gradient(rgba(223, 223, 223, 0.22), rgba(0, 0, 0, 0.163));
     color: white;
     height: 40px;
     border-radius: 5px;
@@ -58,10 +59,14 @@
     line-height: 40px;    
     margin-left: 10%;
 }
-
-
 .enrollButton:hover{
     background-color: rgb(18, 140, 180);    
+}
+.buttonGreen{
+    background-color: rgb(68, 168, 25);
+}
+.buttonGreen:hover{
+    background-color: rgb(91, 188, 50);
 }
 .priceContainer{    
     text-align: center;

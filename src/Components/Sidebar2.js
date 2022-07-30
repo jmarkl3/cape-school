@@ -4,7 +4,7 @@ import "../Styles/Sidebar.css"
 function Sidebar(props) {
 
     const [open, setOpen] = useState(true)
-    var arrow = ">"
+    var arrow = "<"
 
     //\\// ============================== ============================== Display ============================== ============================== \\//\\    
     // #region 
@@ -15,6 +15,7 @@ function Sidebar(props) {
     function openSidebar(){    
         setOpen(true)
     }
+
     // #endregion 
 
     //\\// ============================== ============================== Add ============================== ============================== \\//\\    
@@ -38,22 +39,21 @@ function Sidebar(props) {
     function sectionClick(_chapterId, _sectionId){
         props.setStep(0)
         props.setSection(_chapterId, _sectionId)
-        props.loadElements(_chapterId, _sectionId)
-        props.loadUserData(_chapterId, _sectionId)
-        props.loadStep(_chapterId, _sectionId)
+        props.loadStep(props.courseId, _chapterId, _sectionId)
         props.savePosition(_chapterId, _sectionId)
+        props.loadElements(props.courseId, _chapterId, _sectionId)        
     }
     // #endregion 
 
   return (
     <div className={'sidebar '+(!open ? "closed" : "")} onClick={()=>openSidebar()} key={props.randomNumber}>
-        <div className='sidebarOpenButton'>{arrow}</div>
-        <div className='closeButton' onClick={(event)=>closeSidebar(event)}>x</div>
-        <div className='sidebarTitle'>
-            Chapters        
-        </div>
+        
+        {!open&& <div className='sidebarOpenButton'>{arrow}</div>}
 
-        <div>            
+        {open&&<div className='closeButton' onClick={(event)=>closeSidebar(event)}>x</div>}
+
+
+        {open&&<div className='buttonBox'>            
             {                
                 props.editMode &&                 
                 <div>
@@ -64,9 +64,12 @@ function Sidebar(props) {
             }
 
             <div className='sidebarButton' onClick={()=>props.setPage("userCourses")}>Back to Courses</div>   
-        </div>
+        </div>}
 
-        {props.chapterList.map((chapter, index)=>(
+        {open && <div className='sidebarTitle'>
+            Chapters        
+        </div>}
+        {open&& props.chapterList.map((chapter, index)=>(
             <div className="chapterLine" key={"chapter"+chapter.id+index}>
             {/* <div onClick={()=>props.setChapterId(chapter.id)} className="chapterLine" key={"chapter"+chapter.id+index}> */}
                 <div className={((props.chapterId == chapter.id) && " chapterLineSelected")}>
@@ -83,6 +86,7 @@ function Sidebar(props) {
                 </div>
             </div>
         ))}
+
     </div>
   )
 }

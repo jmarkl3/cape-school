@@ -32,6 +32,7 @@ function ViewCourse2(props) {
                     deleteContent={props.deleteContent}
                     stepUp={stepUp}   
                     complete={props.viewStep>index}
+                    saveAnswerSelection={props.saveAnswerSelection}
                   >
                   </CourseElement2>        
                 }
@@ -39,7 +40,7 @@ function ViewCourse2(props) {
             ))                  
         )
     }
-
+ 
 
 
   return (
@@ -56,6 +57,7 @@ function ViewCourse2(props) {
             loadUserData={props.loadUserData}  
             loadStep={props.loadStep}                                     
             savePosition={props.savePosition}
+            courseId={props.courseId}
         ></Sidebar2>   
       {displayElements()}        
     </div>

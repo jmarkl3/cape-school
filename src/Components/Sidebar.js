@@ -13,7 +13,7 @@ function Sidebar(props) {
     function openSidebar(){    
         setOpen(true)
     }
-
+ 
     function addElement(event){
         event.stopPropagation()        
         props.addElement(props.chapterId, props.sectionId)
@@ -115,7 +115,7 @@ function Sidebar(props) {
         </div>
 
         {displayChapters()}
-        <div className='sidebarOpenButton'>{arrow}</div>
+        <div className='sidebarOpenButton'>{">"}</div>
     </div>
   )
 }

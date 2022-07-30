@@ -17,10 +17,11 @@
 .elementTitle .elementInput{
     font-size: 16px;
     height: 30px;
+    width: 85%;
 }
 .elementInput{
     height: 35px;
-    width: 80%;
+    width: 90%;
     text-align: center;
     outline: none;
     border: none;
@@ -72,7 +73,9 @@
     box-shadow: 0 0 2px rgba(128, 128, 128, 0.474);
 }
 .questionSelected{    
-    background-image: linear-gradient(rgb(181, 214, 243), rgb(123, 170, 210));    
+
+    background-color: green;
+    background-image: linear-gradient(rgb(181, 214, 243), rgb(123, 170, 210));
 }
 .questionSelected:hover{
     background-image: linear-gradient(rgb(181, 214, 243), rgb(123, 170, 210));

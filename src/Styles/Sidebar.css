@@ -1,25 +1,38 @@
+.sidebar{
+    --buttonColor:rgb(46, 86, 159);
+    --buttonHoverColor:rgb(60, 111, 205);
+}
 .sidebar{    
     position: fixed;
     z-index: 2;
-    top:130px;
-    height: calc(80% - 100px);
-    width: 200px;
-    background-color: rgba(240, 248, 255, 0.483);
-    left: 0;
-    border-radius: 0 5px 5px 0;
+    top:0px;
+    padding-top: 100px;
+    height: 100vh;
+    width: 280px;
+    background-color: rgb(240, 248, 255);
+    background-color: rgb(45, 53, 72);
+    scrollbar-color: rgb(45, 53, 72) rgb(45, 53, 72);
+    left: -20px;
+    border-radius: 0 2px 2px 0;
     display: inline-block;    
     cursor: pointer;
     user-select: none;
-    padding-top: 10px;
     font-size: 20px;
     transition: 800ms;
-    box-shadow: 0 0 5px gray;
+    color: white;
+    overflow-y: scroll;
+    direction: rtl;
+
+    box-sizing: border-box;
+}
+.sidebarPositionFixed{
+    position: fixed;
 }
 .chapterLine{
     min-height: 40px;
     line-height: 40px;
     width: 100%;
-    background-color: aliceblue;
+    background-color: rgba(240, 248, 255, 0);
     border-bottom: 1px solid rgba(128, 128, 128, 0.442);
     width: 100%;
     font-size: 14px;
@@ -36,10 +49,16 @@
     display: none;
 }
 .chapterLineSelected{
-    background-image: linear-gradient(rgba(168, 186, 255, 0.5), rgba(65, 82, 121, 0.5));
+    /* background-image: linear-gradient(rgba(168, 186, 255, 0.5), rgba(65, 82, 121, 0.5)); */
+    background-color: var(--buttonColor);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.254), rgba(25, 48, 70, 0));
 }
 .sectionLineSelected{
-    background-image: linear-gradient(rgba(141, 199, 253, 0.5), rgba(65, 94, 121, 0.5));
+    /* background-image: linear-gradient(rgba(141, 199, 253, 0.5), rgba(65, 94, 121, 0.5)); */
+    background-color: var(--buttonColor);
+}
+.sidebar .closeButton{
+    top: 110px;
 }
 .sectionLine .closeButton{
     height: 20px;
@@ -56,7 +75,7 @@
     display: block;
 }
 .sectionLine:hover{    
-    background-color: rgba(0, 255, 255, 0.12);
+    background-color: var(--buttonHoverColor);
     background-image: linear-gradient(rgba(0, 255, 255, 0), rgba(39, 137, 137, 0.213));
 }
 .sectionLine .editButton{
@@ -78,17 +97,19 @@
     padding: 10px;
 }
 .sidebarButton{
-    background-color: rgba(0, 255, 255, 0.248);
+    background-color: rgb(46, 86, 159);
     background-image: linear-gradient(rgba(0, 255, 255, 0), rgba(39, 137, 137, 0.35));
     padding: 5px;
     border-bottom: 1px solid rgba(128, 128, 128, 0.442);
     font-size: 14px;
+    height: 30px;
+    line-height: 30px;
 }
 .sidebarButton:hover{
-    background-color: rgba(0, 255, 255, 0.404);
+    background-color: rgb(60, 111, 205);
 }
 .closed{
-    left: -180px;
+    left: -250px;
 }
 .hide{
     display: none;
@@ -96,7 +117,7 @@
 .sidebarOpenButton{
     height: 80px;
     width: 30px;
-    background-color: rgba(78, 130, 228, 0.341);
+    background-color: rgb(46, 86, 159);
     border-radius: 5px;
     position: absolute;
     z-index: 4;
@@ -104,4 +125,18 @@
     top:40%;
     line-height: 80px;
     font-size: 28px;
+}
+.viewSet{
+    position: absolute;
+    top: calc(98vh);
+    height: 10px;
+    width: 10px;
+    right: 0;
+    background-color: blueviolet;
+}
+.buttonBox{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
 }

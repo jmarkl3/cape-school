@@ -1,7 +1,7 @@
 .page{
     background-image: url("../Images/Map-Pattern-Light.png");
     min-height: 600px;
-    padding: 20px;
+    padding: 20px;    
 }
 .imageBox{
     float: left;
@@ -118,6 +118,7 @@
     margin: 10px;
     height: 70px;
 }
+
 @media screen and (max-width:1000px){
     .pageBox{
         width: 100%;

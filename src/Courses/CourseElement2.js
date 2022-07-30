@@ -14,16 +14,25 @@ function CourseElement2(props) {
     const [complete, setComplete] = useState(false)    
 
     useEffect(()=>{
-
+        
         if(props.elementData.correctIndex != undefined)
             setCorrectIndex(props.elementData.correctIndex)
         
         // if(props.step != undefined)
         //     setStep(props.step)
+
+        // Get the complete flat and put it in state
+        setComplete(props.complete)
+
+
         
+        // If the element is complete show all the steps
         if(props.complete)
             try{setStep(props.elementData.content.length)}catch{}
         
+        // Load the selected answer in (if there is one)
+        //setSelected(prop.getElementUserData(props.elementData.id).selected)
+
     }, [])
 
     // #endregion 
@@ -85,7 +94,7 @@ function CourseElement2(props) {
     function viewButtons(){        
         var buttonsArray = []
             
-        if(!props.complete){
+        if(!complete){
             // If there is no content array show continue button
             if(!Array.isArray(props.elementData.content)) 
                 buttonsArray.push(<div className='button' onClick={()=>props.stepUp()}>Continue</div>)
@@ -101,9 +110,9 @@ function CourseElement2(props) {
     }
     function editButtons(_index){        
         var buttonsArray = []                
-        buttonsArray.push(<div className='button' onClick={()=>props.deleteElement(props.elementData.id)}>Delete</div>)
-        buttonsArray.push(<div className='button' onClick={()=>props.addContent(props.elementData.id, props.elementData.content)}>Add Content</div>)
-        buttonsArray.push(<div className='button' onClick={()=>updateElement()}>Save</div>)        
+        buttonsArray.push(<div key="button1" className='button' onClick={()=>props.deleteElement(props.elementData.id)}>Delete</div>)
+        buttonsArray.push(<div key="button2" className='button' onClick={()=>props.addContent(props.elementData.id, props.elementData.content)}>Add Content</div>)
+        buttonsArray.push(<div key="button3" className='button' onClick={()=>updateElement()}>Save</div>)        
         return buttonsArray
     }
 
@@ -137,10 +146,10 @@ function CourseElement2(props) {
         if(props.editMode && props.elementData.content != undefined)
             return(
                 props.elementData.content.map((content, index)=>(
-                    <div key={"text"+index}>
+                    <div key={"text"+props.elementData.id+index}>
                         <div className='elementText' key={key+index}>
                             <textarea key={key} className={'elementInput '+props.elementData.id+"Content"} defaultValue={content}></textarea>
-                            <div className='closeButton' onClick={()=>props.deleteContent(props.elementData.id, props.elementData.content, index)}>Delete text line</div>                    
+                            <div className='closeButton' onClick={()=>props.deleteContent(props.elementData.id, props.elementData.content, index)}>x</div>                    
                         </div>
                     </div>
                 ))
@@ -176,12 +185,20 @@ function CourseElement2(props) {
                     <div key={key+index+"correctInput"} onClick={()=>setCorrectIndex(index)} className={"questionRadioButon "+(correctIndex == index && " selectedRadioButton")} >Correct</div>
                 </div>
             ))
-        // else
-        //     return props.elementData.content.map((content, index)=>(
-        //         <div className={'questionAnswer ' + (index == selected && "questionSelected")+answerCheckCss(index)} onClick={()=>selectAnswer(index)} key={key+index}>                                        
-        //             {content}
-        //         </div>
-        //     ))
+        else
+        if(complete)
+            return props.elementData.content.map((content, index)=>(
+                <div className={'questionAnswer ' + answerCheckCss(index)} onClick={()=>selectAnswer(index)} key={key+index}>                                        
+                    {content}
+                </div>
+            ))
+        else
+            return props.elementData.content.map((content, index)=>(
+                <div className={'questionAnswer ' + (index == selected && " questionSelected ")+answerCheckCss(index)} onClick={()=>selectAnswer(index)} key={key+index}>                                        
+                    {content}
+                </div>
+            ))
+
     }
     function displayImage(){
         
@@ -259,17 +276,14 @@ function CourseElement2(props) {
     }
 
     function selectAnswer(index){
-        return
         if(complete)
             return
         setSelected(index)
     }
 
     function answerCheckCss(index){
-        return
         
         var correctIndex = props.elementData.correctIndex
-        correctIndex = 1        
 
         if(!complete)
             return ""

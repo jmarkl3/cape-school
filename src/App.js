@@ -88,6 +88,8 @@ function App() {
           setPage={setPage}
           userId={userId}
           auth={auth}
+          app={app}
+
         ></Account>)
     
   }
@@ -100,8 +102,12 @@ function App() {
     setPage("Courses")
   }
 
+  function fun(){
+    console.log("hey")
+  }
+
   return (
-    <div className="App">
+    <div className="App" onScroll={()=>{console.log("a")}}>
       <Header
         setPage={setPage}
         userId={userId}

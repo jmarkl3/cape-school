@@ -10,7 +10,7 @@ function UserCourses2(props) {
         if(props.userId == null)
             props.setPage("browseCourses")
     },[])
-    
+     
   return (
     <div className='page'>                
         <div>
