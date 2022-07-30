@@ -17,7 +17,8 @@ function ViewCourse2(props) {
 
     function displayElements(){        
         return (
-            props.elementsArray.map((element, index)=>(
+          <div>
+            {props.elementsArray.map((element, index)=>(
               <div key={props.chapterId+props.sectionId+element.id}>
                 {
                   props.viewStep >= index &&
@@ -33,11 +34,18 @@ function ViewCourse2(props) {
                     stepUp={stepUp}   
                     complete={props.viewStep>index}
                     saveAnswerSelection={props.saveAnswerSelection}
+                    courseId={props.courseId}
+                    getAnswerChoice={props.getAnswerChoice}
                   >
                   </CourseElement2>        
                 }
               </div>
-            ))                  
+            ))      }
+            {
+              (step > props.elementsArray.length-1) && 
+              <div className='button'>Complete Section</div>
+            }            
+          </div>
         )
     }
  

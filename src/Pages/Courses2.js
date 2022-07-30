@@ -129,10 +129,27 @@ function Courses2(props) {
         position data shows on element display
         when position loads step also loads
         
+        save selected question answers into db
+        load question answer (loads into userData, when elemnt loads gets if from there)
+                
+        submit question button displays for question elements
+        saves answer choice when pressed
+        sets complete to true
+        displays css (displays when complete == true)
+        goes to next element
+        if question is incorrect retry button shows
+        retry button functionality
+
         *
         
-        save selected question answers into db
-        load question answers from db (in userData in loadUserData)
+        continue button functionality
+          completes the element (set complete to true)
+          step up the viewCourses2 component
+          if vewCourses2 is above length show complete course button
+          when that button is pressed set complete flag in userData 
+          and go to next section
+
+
         display question answers from db
           on each question load, if complete look in userData for the selected answer by calling props.getSelectedAnswer(_courseId, _chapterId, _sectionId, _elementId)
 
@@ -340,6 +357,7 @@ function Courses2(props) {
                     userData={userData}
                     courseId={courseId}
                     saveAnswerSelection={saveAnswerSelection}
+                    getAnswerChoice={getAnswerChoice}
                 ></ViewCourse2>
             )
 
@@ -534,8 +552,32 @@ function Courses2(props) {
         setSectionPosition()
     }
 
+    function validUserDataPath(_chapterId, _sectionId, _elementId){
+        
+        if(_chapterId)
+            if(userData.chapters == null || userData.chapters[_chapterId] == null)
+                return false
+        if(_sectionId)
+            if(userData.chapters[_chapterId].sections == null  || userData.chapters[_chapterId].sections[_sectionId] == null)
+                return false
+        if(_elementId)                    
+            if(userData.chapters[_chapterId].sections[_sectionId].elements == null  || userData.chapters[_chapterId].sections[_sectionId].elements[_elementId] == null)
+                return false
+        return true     
+    }
 
+    // Get users selection for element (return null if not there)
+    function getAnswerChoice(_chapterId, _sectionId, _elementId){
+        
+        // Make sure the parameters and path are there
+        if(_sectionId == null || _elementId == null || userData == null)
+            return -1
+        if(!validUserDataPath(_chapterId, _sectionId, _elementId))
+            return -1                
 
+        // Return the selection that is saved in user data
+        return userData.chapters[_chapterId].sections[_sectionId].elements[_elementId].selection
+    }
 
     function isSectionComplete(_chapterId, _sectionId){
         if(_sectionId == null || _chapterId == null)
@@ -555,18 +597,7 @@ function Courses2(props) {
         return userData.complete
     }
 
-    // Get users selection for element (return null if not there)
-    function getAnswerChoice(_sectionId, _elementId){
-        // Make sure the parameters and path are there
-        if(_sectionId == null || _elementId == null || userData == null)
-            return false
-        if(userData.sections == null || userData.sections[_sectionId] == null)
-            return false
-        if(userData.sections[_sectionId].elements == null || userData.sections[_sectionId].elements[_elementId] == null || userData.sections[_sectionId].elements[_elementId].selection == null)
-            return false
 
-        return userData.sections[_sectionId].elements[_elementId].selection
-    }
 
     // function loadPosition(){
     //     if(userData == null || userData.position == null)
@@ -755,8 +786,14 @@ function Courses2(props) {
         //console.log("saving position "+_chapterId+" "+_sectionId)
         set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/position"), {chapter: _chapterId, section:_sectionId, })           
     }
-    function saveAnswerSelection(_courseId, _chapterId, _sectionId, _elementId, _selection){
-        set(ref(database, "cape-school/users/"+props.userId+"/courses/"+_courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId+"/selection"), _selection)
+    function saveAnswerSelection(_courseId, _chapterId, _sectionId, _elementId, _selection, _correct){
+        // set(ref(database, "cape-school/users/"+props.userId+"/courses/"+_courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId+"/selection"), _selection)
+        // set(ref(database, "cape-school/users/"+props.userId+"/courses/"+_courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId+"/correct"), _correct)
+
+        //console.log("updating anser selection "+_sectionId+" "+_correct)
+
+        update(ref(database, "cape-school/users/"+props.userId+"/courses/"+_courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/elements/"+_elementId), {selection:_selection, correct:_correct})
+
     }
     function completeSection(){
         set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/complete"), true)           

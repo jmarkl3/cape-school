@@ -15,15 +15,18 @@ function CourseElement2(props) {
 
     useEffect(()=>{
         
+        // If there is a correct index load it in sate
         if(props.elementData.correctIndex != undefined)
             setCorrectIndex(props.elementData.correctIndex)
         
         // if(props.step != undefined)
         //     setStep(props.step)
 
-        // Get the complete flat and put it in state
-        setComplete(props.complete)
+        if(props.elementData.type == "question")
+            setSelected(props.getAnswerChoice(props.chapterId, props.sectionId, props.elementData.id))
 
+        // Get the complete status and put it in state. In view course if step > index its automatically set to complete
+        setComplete(props.complete)
 
         
         // If the element is complete show all the steps
@@ -97,14 +100,18 @@ function CourseElement2(props) {
         if(!complete){
             // If there is no content array show continue button
             if(!Array.isArray(props.elementData.content)) 
-                buttonsArray.push(<div className='button' onClick={()=>props.stepUp()}>Continue</div>)
+                buttonsArray.push(<div className='button' onClick={()=>completeElement()}>Continue</div>)
+            else if(props.elementData.type == "question")
+                buttonsArray.push(<div className='button' onClick={()=>submitAnswer()}>Submit</div>)
             // If step is beyond length of content array show continue button
             else if(props.elementData.content.length <= step)
-                buttonsArray.push(<div className='button' onClick={()=>props.stepUp()}>Continue</div>)
+                buttonsArray.push(<div className='button' onClick={()=>completeElement()}>Continue</div>)
             // If step is below length of content array show next button
             else
                 buttonsArray.push(<div className='button' onClick={()=>nextStep()}>Next</div>)  
-        }           
+        }        
+        else if(props.elementData.type === "question" &&  selected != props.elementData.correctIndex)   
+            buttonsArray.push(<div className='button' onClick={()=>tryAgain()}>Try Again</div>)  
 
         return buttonsArray
     }
@@ -280,7 +287,13 @@ function CourseElement2(props) {
             return
         setSelected(index)
     }
+    function submitAnswer(){
 
+        props.saveAnswerSelection(props.courseId, props.chapterId, props.sectionId, props.elementData.id, selected, (selected == props.elementData.correctIndex))
+        setComplete(true)
+        props.stepUp()
+        
+    }
     function answerCheckCss(index){
         
         var correctIndex = props.elementData.correctIndex
@@ -302,6 +315,14 @@ function CourseElement2(props) {
 
         // If none of the above conditions are true not css change takes place
         return " "
+    }
+    function tryAgain(){
+        setComplete(false)
+    }
+
+    function completeElement(){
+        setComplete(true)
+        props.stepUp()
     }
 
     // Delete a content line
