@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import BrowseCourses2 from '../Courses/BrowseCourses2'
-import {getDatabase, set, push, onValue, ref, update, remove} from "firebase/database"
+import {getDatabase, set, push, onValue, ref, update, remove, refFromURL} from "firebase/database"
 import Enroll from '../Courses/Enroll2'
 import { checkActionCode } from 'firebase/auth'
 import UserCourses2 from '../Courses/UserCourses2'
@@ -140,14 +140,19 @@ function Courses2(props) {
         if question is incorrect retry button shows
         retry button functionality
 
-        *
         
         continue button functionality
-          completes the element (set complete to true)
-          step up the viewCourses2 component
-          if vewCourses2 is above length show complete course button
-          when that button is pressed set complete flag in userData 
-          and go to next section
+        completes the element (set complete to true)
+        step up the viewCourses2 component
+        if vewCourses2 is above length show complete course button
+        when the complete section button is pressed set complete flag in userData 
+
+        checkbox shows next to complete sections
+        checkbox shows next to complete chapters
+
+        *
+          when the complete section button is pressed go to next section (and set proper variables)
+            nextSection button finds next section, or next chapter, or completes course
 
 
         display question answers from db
@@ -358,6 +363,9 @@ function Courses2(props) {
                     courseId={courseId}
                     saveAnswerSelection={saveAnswerSelection}
                     getAnswerChoice={getAnswerChoice}
+                    completeSection={completeSection}
+                    isSectionComplete={isSectionComplete}
+                    isChapterComplete={isChapterComplete}
                 ></ViewCourse2>
             )
 
@@ -487,8 +495,8 @@ function Courses2(props) {
     // Then this json can be used for displaying view course progress, for sidebar completion indicators, and on a stats page
     function loadUserData(_courseId,){
         onValue(ref(database, "cape-school/users/"+props.userId+"/courses/"+_courseId), snap=>{                        
-            console.log("loading user data for the course "+_courseId)
-            console.log(snap.val())
+            //console.log("loading user data for the course "+_courseId)
+            //console.log(snap.val())
             setUserData(snap.val())
             // returns a json with all the chapters and sections that the user has touched upon, telling their completion status, step, element data, and current position (chapter and section)
         })
@@ -552,19 +560,6 @@ function Courses2(props) {
         setSectionPosition()
     }
 
-    function validUserDataPath(_chapterId, _sectionId, _elementId){
-        
-        if(_chapterId)
-            if(userData.chapters == null || userData.chapters[_chapterId] == null)
-                return false
-        if(_sectionId)
-            if(userData.chapters[_chapterId].sections == null  || userData.chapters[_chapterId].sections[_sectionId] == null)
-                return false
-        if(_elementId)                    
-            if(userData.chapters[_chapterId].sections[_sectionId].elements == null  || userData.chapters[_chapterId].sections[_sectionId].elements[_elementId] == null)
-                return false
-        return true     
-    }
 
     // Get users selection for element (return null if not there)
     function getAnswerChoice(_chapterId, _sectionId, _elementId){
@@ -580,21 +575,33 @@ function Courses2(props) {
     }
 
     function isSectionComplete(_chapterId, _sectionId){
-        if(_sectionId == null || _chapterId == null)
-            return false        
-        if(userData == null || userData.sections == null || userData.sections[_sectionId] == null || userData.sections[_sectionId].complete == null)
+        
+        if(!validUserDataPath(_chapterId, _sectionId))
             return false
             
-        return userData.sections[_sectionId].complete
+        return userData.chapters[_chapterId].sections[_sectionId].complete
     }
     function isChapterComplete(_chapterId){
-        if(_chapterId == null)
-            return false  
-        if(userData == null || userData.complete == null)
-            return false
-        
-        // Userdata loads from chapter level so userData.complete is the chapter complete storage location
-        return userData.complete
+
+        var returnValue = true
+
+        // If theres no data for this chapter return false
+        if(!validUserDataPath(_chapterId))            
+            returnValue = false  
+            
+        // Find the corresponding chapter
+        chapterList.forEach(chapter=>{
+            // For the corresponding chapter
+            if(chapter.id == _chapterId){
+                // check each section to see if its complete
+                chapter.sections.forEach(section=>{
+                    if(!isSectionComplete(chapter.id, section.id))                        
+                        returnValue = false
+                    
+                })}
+        })
+
+        return returnValue
     }
 
 
@@ -796,7 +803,14 @@ function Courses2(props) {
 
     }
     function completeSection(){
-        set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/complete"), true)           
+        set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/complete"), true)
+        
+        nextSection()
+
+        // if its the last section in the chapter set the chapter to complete
+
+        // find the next chapter in the section, or the first section in the next chapter, or complete the course
+        // set sectionId and chapterId accordingly
     }
     function completeChapter(){
         set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+chapterId+"/complete"), true)           
@@ -813,7 +827,70 @@ function Courses2(props) {
             return true
         return false
     }
+    function validUserDataPath(_chapterId, _sectionId, _elementId){
+        
+        if(userData == null)
+            return false
 
+        if(_chapterId)
+            if(userData.chapters == null || userData.chapters[_chapterId] == null)
+                return false
+        if(_sectionId)
+            if(userData.chapters[_chapterId].sections == null  || userData.chapters[_chapterId].sections[_sectionId] == null)
+                return false
+        if(_elementId)                    
+            if(userData.chapters[_chapterId].sections[_sectionId].elements == null  || userData.chapters[_chapterId].sections[_sectionId].elements[_elementId] == null)
+                return false
+        return true     
+    }
+    function nextSection(){
+        var atSection = false
+        var nextSection = null
+        // Look at each chapter in the array for the current chapter
+        chapterList.forEach(chapter =>{
+            if(chapter.id == chapterId)
+                // Look through the sections in that chapter
+                chapter.sections.forEach(section=>{
+                    // And on the next go around get that section Id
+                    if(atSection){
+                        nextSection = section
+                        atSection = false
+                    }
+                    // If the section matches set a flat
+                    if(section.id == sectionId) 
+                        atSection = true
+                })
+        })
+        
+        //console.log("next section is "+nextSection.title)
+        //console.log("with id "+nextSection.id)
+
+        if(nextSection != null){
+            setSectionId(nextSection.id)
+            setViewStep(0)
+            loadPosition(courseId)
+            loadElements(courseId, chapterId, nextSection.id)   
+        }
+        else{
+            // Go to next chapter
+
+            console.log("at end of chapter")
+        }
+
+        // If the current section was the last one it will never get this value so it will still be null, meaning there is no next section in this chapter
+        return nextSection
+    }
+    function nextChapter(){
+
+    }
+
+    function goToSection(){
+        //setViewStep(0)
+        //setSection(chapterId, sectionId)
+        //loadStep(props.courseId, _chapterId, _sectionId)
+        // savePosition(_chapterId, _sectionId)
+        // loadElements(props.courseId, _chapterId, _sectionId)   
+    }
 
     // #endregion
 

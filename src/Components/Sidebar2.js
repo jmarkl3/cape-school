@@ -37,6 +37,7 @@ function Sidebar(props) {
     //\\// ============================== ============================== Helper ============================== ============================== \\//\\    
     // #region 
     function sectionClick(_chapterId, _sectionId){
+        console.log("selecting chapter " +_chapterId+" section "+_sectionId)
         props.setStep(0)
         props.setSection(_chapterId, _sectionId)
         props.loadStep(props.courseId, _chapterId, _sectionId)
@@ -71,6 +72,7 @@ function Sidebar(props) {
         </div>}
         {open&& props.chapterList.map((chapter, index)=>(
             <div className="chapterLine" key={"chapter"+chapter.id+index}>
+                {props.isChapterComplete(chapter.id) && <div className='checkbox'></div>}
             {/* <div onClick={()=>props.setChapterId(chapter.id)} className="chapterLine" key={"chapter"+chapter.id+index}> */}
                 <div className={((props.chapterId == chapter.id) && " chapterLineSelected")}>
                     {chapter.title}
@@ -78,6 +80,7 @@ function Sidebar(props) {
                 <div className={'sectionLineContainer '+(chapter.id == props.chapterId ? ' display':"")}>
                     {chapter.sections.map((section, sectionIndex)=>(
                         <div onClick={()=>sectionClick(chapter.id, section.id)} className="sectionLine" key={"chapter"+chapter.id+"section"+section.id+sectionIndex} >
+                            {props.isSectionComplete(chapter.id, section.id) && <div className='checkbox'></div>}
                             <div className={(((props.sectionId == section.id) && (props.chapterId == chapter.id)) ? " sectionLineSelected":"")}>
                                 {section.title}
                             </div>
@@ -93,7 +96,7 @@ function Sidebar(props) {
 export default Sidebar
 
 Sidebar.defaultProps={
-    setStep:()=>{},
+    setStep:()=>{console.log("no set step function ===============================================")},
     loadUserData:()=>{},
     loadStep:()=>{console.log("no load step function")}, 
     savePosition:()=>{}

@@ -5,8 +5,6 @@ import CourseElement2 from './CourseElement2.js'
 
 function ViewCourse2(props) {
   
-    const [step, setStep] = useState(0)
-
     useEffect(()=>{
       // Call function that loads starting chapter, section, and step. It will update locally and in db while user goes through course but only loads from db once
     })
@@ -17,8 +15,7 @@ function ViewCourse2(props) {
 
     function displayElements(){        
         return (
-          <div>
-            {props.elementsArray.map((element, index)=>(
+            props.elementsArray.map((element, index)=>(
               <div key={props.chapterId+props.sectionId+element.id}>
                 {
                   props.viewStep >= index &&
@@ -40,16 +37,15 @@ function ViewCourse2(props) {
                   </CourseElement2>        
                 }
               </div>
-            ))      }
-            {
-              (step > props.elementsArray.length-1) && 
-              <div className='button'>Complete Section</div>
-            }            
-          </div>
+            ))                
         )
     }
  
-
+  function completeSection(){
+    console.log("completing section "+props.sectionId)
+    props.completeSection()
+    //setStep(0)
+  }
 
   return (
     <div className='page'>        
@@ -61,13 +57,18 @@ function ViewCourse2(props) {
             setPage={props.setPage}            
             setChapterId={props.setChapterId}
             setSection={props.setSection}          
-            setStep={setStep}                    
             loadUserData={props.loadUserData}  
             loadStep={props.loadStep}                                     
             savePosition={props.savePosition}
             courseId={props.courseId}
+            isSectionComplete={props.isSectionComplete}
+            isChapterComplete={props.isChapterComplete}
         ></Sidebar2>   
-      {displayElements()}        
+      {displayElements()}  
+      {
+        (props.viewStep > props.elementsArray.length-1) && 
+        <div className='button' onClick={()=>completeSection()}>Complete Section</div>
+      } 
     </div>
   )
 }

@@ -140,3 +140,14 @@
     right: 0;
     width: 100%;
 }
+.checkbox{
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    
+    top: 8px;
+    left: 10px;
+    background-image: url("../Images/greenCheck.png");
+    box-sizing: border-box;
+    background-size: contain;
+}
