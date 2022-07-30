@@ -165,6 +165,9 @@ function Courses2(props) {
         open sidebar on load, then close it right away
 
         payment screen
+          card input/other methods shows when user clicks pay now
+          button somewhere to updgrade (maybe at third chapter)
+        enroll button takes existing user to the course
 
         new ui
 */
@@ -883,6 +886,12 @@ function Courses2(props) {
 
     // #endregion
 
+    console.log(document.body.scrollTop)
+    document.body.onScroll+=ab
+    function ab(){
+        document.body.scrollHeight = "100px"
+        console.log(document.body.scrollHeight)
+    }
 
     return (
     <div>

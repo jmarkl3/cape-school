@@ -6,6 +6,10 @@ function Sidebar(props) {
     const [open, setOpen] = useState(true)
     var arrow = "<"
 
+    useEffect(()=>{
+        setTimeout(()=>setOpen(false), 400)
+    },[])
+
     //\\// ============================== ============================== Display ============================== ============================== \\//\\    
     // #region 
     function closeSidebar(event){
@@ -37,7 +41,7 @@ function Sidebar(props) {
     //\\// ============================== ============================== Helper ============================== ============================== \\//\\    
     // #region 
     function sectionClick(_chapterId, _sectionId){
-        console.log("selecting chapter " +_chapterId+" section "+_sectionId)
+        //console.log("selecting chapter " +_chapterId+" section "+_sectionId)
         props.setStep(0)
         props.setSection(_chapterId, _sectionId)
         props.loadStep(props.courseId, _chapterId, _sectionId)
