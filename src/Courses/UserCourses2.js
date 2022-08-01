@@ -13,7 +13,7 @@ function UserCourses2(props) {
      
   return (
     <div className='page'>                
-        <div>
+        <div className='courseBoxSmaller'>
             <button className='button' onClick={()=>props.setPage("browseCourses")}>Browse Courses</button>
         </div>
         {props.userCourseList.map((course, index)=>(

@@ -29,11 +29,12 @@ function BrowseCourses2(props) {
 
   return (
     <div className='page'>        
-      <div>
-        <button className='button' onClick={props.createCourse}>Add course</button>
-        <div className='button' onClick={()=>editCourse()}>{editing ? "Stop Editing":"Edit Courses"}</div>   
-        {props.userId != null && <button className='button' onClick={()=>props.setPage("userCourses")}>Your Courses</button>}
-          
+      <div className='courseBoxSmaller'>
+        <div className='browseCoursesButtonBox'>
+          <button className='button' onClick={props.createCourse}>Add course</button>
+          <div className='button' onClick={()=>editCourse()}>{editing ? "Stop Editing":"Edit Courses"}</div>   
+          {props.userId != null && <button className='button' onClick={()=>props.setPage("userCourses")}>Your Courses</button>}
+        </div>          
       </div>
     {
         props.courseList.map(course=>(
@@ -58,8 +59,8 @@ function BrowseCourses2(props) {
                   {editing && <div className='button bottomButton courseButton' onClick={()=>updateCourse(course.id)}>Save Changes</div>}      
                   {(props.userIsInCourse(course.id) && !editing) ?                                          
                       <div className='bottomButtonHolder'>
-                        <a className='button bottomButton courseButton'>Edit Course</a>   
-                        <a className='button bottomButton courseButton'>Continue Course</a>
+                        <a className='button courseButton' onClick={()=>props.goToCourse(course.id,"editCourse")}>Edit Course</a>
+                        <a className='button courseButton' onClick={()=>props.goToCourse(course.id,"viewCourse")}>Continue Course</a>
                       </div>                   
                       :
                       <a className='button bottomButton courseButton' onClick={()=>enroll(course)}>View Details / Enroll</a>                        

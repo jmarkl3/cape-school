@@ -94,10 +94,10 @@ function Enroll2(props) {
                 <div className='errorMessage'>{errorMessage}</div>
               </div>
               <div>
+                <div className='enrollButton buttonGreen' onClick={()=>enrollNewUser()}>Enroll Now (Save $22.99) </div>
                 <div className='enrollButton' onClick={()=>enrollNewUser()}>One-Click Enroll (Preview) </div>
-                <div className='enrollButton buttonGreen' onClick={()=>enrollNewUser()}>Enroll Now (Save $25) </div>
+                <div className='  '>* No payment information required to start</div>
               </div>                
-              <div className='underButtonMessage'>* No payment information required to start</div>
             </div>
         </div>
     </div>

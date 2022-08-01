@@ -124,9 +124,9 @@ function Account(props) {
         <div className='accountInnerBox'>
           <img src={profileData.imageUrl} onDrop={(event)=>imageDrop(event)} id="imageDisplay"></img>
           <div className='imageButtons'>
-            <input id="imageFilePicker" className='hidden' type={"file"} onChange={imageChosen}></input>
-            <label for="imageFilePicker" className='button'>Choose Image</label>
             <button className='button' onClick={deleteImage}>Delete</button>
+            <label for="imageFilePicker" className='button'>Choose Image</label>
+            <input id="imageFilePicker" className='hidden' type={"file"} onChange={imageChosen}></input>
           </div>
         </div>
         <div className='accountInnerBox'>

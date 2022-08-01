@@ -101,21 +101,23 @@ function Sidebar(props) {
     
   return (
     <div className={'sidebar '+(!open ? "closed" : "")} onClick={()=>openSidebar()} key={props.randomNumber}>
-        <div className='closeButton' onClick={(event)=>closeSidebar(event)}>x</div>
-        <div className='sidebarTitle'>
-            Chapters        
-        </div>
-        <div>
-            <div className={props.editMode ? "":"hide"}>
-                <div className='sidebarButton' onClick={(event)=>addChapter(event)}>Add Chapter</div>               
-                <div className='sidebarButton' onClick={(event)=>addSection(event)}>Add Section</div>       
-                <div className='sidebarButton' onClick={(event)=>addElement(event)}>Add Element</div>            
+        <div className='sidebarInner'>
+            <div className='closeButton' onClick={(event)=>closeSidebar(event)}>x</div>
+            <div className='sidebarTitle'>
+                Chapters        
             </div>
-            <div className='sidebarButton' onClick={()=>props.setPage("userCourses")}>Back to Courses</div>   
-        </div>
+            <div>
+                <div className={props.editMode ? "":"hide"}>
+                    <div className='sidebarButton' onClick={(event)=>addChapter(event)}>Add Chapter</div>               
+                    <div className='sidebarButton' onClick={(event)=>addSection(event)}>Add Section</div>       
+                    <div className='sidebarButton' onClick={(event)=>addElement(event)}>Add Element</div>            
+                </div>
+                <div className='sidebarButton' onClick={()=>props.setPage("userCourses")}>Back to Courses</div>   
+            </div>
 
-        {displayChapters()}
-        <div className='sidebarOpenButton'>{">"}</div>
+            {displayChapters()}
+            <div className='sidebarOpenButton'>{">"}</div>
+        </div>        
     </div>
   )
 }

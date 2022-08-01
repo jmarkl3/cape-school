@@ -161,7 +161,7 @@ function Courses2(props) {
         when all elements are coplete complete section button shows, when section is complete show Message:  Section Complete  Button: Next Section        
         
         delete image in account page
-        
+
         *
 
 
@@ -169,7 +169,7 @@ function Courses2(props) {
           common things pulled into same css file
           vars css file has color variables
           list classes that can be in a combined css file          
-
+          better checkbox button
         
         get rid of 2 at end of files and unnecessary files        
         
@@ -200,6 +200,7 @@ function Courses2(props) {
         Content:
         info about real estate agent pay, job growth, type of person that would want to do it
         info page about how to get licence (all the steps and exactly how to do them)
+        change cards to go to pages that exist
 */
     /*
 ====================
@@ -316,6 +317,7 @@ function Courses2(props) {
                     userId={props.userId}
                     setPage={setPage}
                     userIsInCourse={userIsInCourse}
+                    goToCourse={goToCourse}
                 ></BrowseCourses2>
             )
         if(page == "enroll")

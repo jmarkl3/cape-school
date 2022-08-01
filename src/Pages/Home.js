@@ -89,7 +89,7 @@ function Home(props) {
                 <div className='left'>
                     <img src={waves}></img>
                     <div>Corperate Partnership Program</div>
-                    <div className='button'>Partnership Benefits</div>
+                    <div className='button' onClick={()=>props.setPage("Contact")}>Contact Us</div>
                 </div>
                 <div className='right'>
                     <img src={rightImage}></img>

@@ -2,11 +2,37 @@
     --buttonColor:rgb(46, 86, 159);
     --buttonHoverColor:rgb(60, 111, 205);
 }
+.sidebar2{
+    height: 100%;
+    width: 350px;
+    position: absolute;
+    left: 0;
+    top: 100px;
+    background-color: orange;
+    z-index: 200;
+    overflow: visible;
+}
+.sidebar2Inner{
+    position: sticky;
+    background-color: blue;
+    width: 100%;
+    height: 500px;
+    top: 0;
+
+}
+.sidebarLogo{
+    width: 100%;
+    height: 100px;
+}
+.sidebarLogo img{
+    width: 80%;
+    object-fit: contain;
+    margin-top: 40px;
+}
 .sidebar{    
-    position: fixed;
+    position: absolute;   
     z-index: 2;
     top:0px;
-    padding-top: 100px;
     height: 100vh;
     width: 280px;
     background-color: rgb(240, 248, 255);
@@ -24,6 +50,16 @@
     direction: rtl;
 
     box-sizing: border-box;
+}
+.posF{
+    position: fixed;
+    top: 0;
+}
+.sidebarInner{
+    position: sticky;
+    height: 800px;
+    top: 0;
+    width: 100%;
 }
 .sidebarPositionFixed{
     position: fixed;
@@ -139,6 +175,7 @@
     bottom: 0;
     right: 0;
     width: 100%;
+    margin-bottom: 20px;
 }
 .checkbox{
     position: absolute;
@@ -151,6 +188,7 @@
     box-sizing: border-box;
     background-size: contain;
 }
+
 @media screen and (max-width:1015px) {
     .sidebar{
         padding-top: 150px;

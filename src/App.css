@@ -28,3 +28,22 @@
   background-image: linear-gradient(rgb(87, 197, 234), rgb(36, 136, 169));
 
 }
+.line{
+  height: 100px;
+  width: 100px;
+  background-color: orange;
+}
+.columnA{
+  height: 800px;
+  width: 200px;
+  background-color: green;
+  position: absolute;
+  z-index: 2000;
+}
+.columnInnerA{
+  height: 400px;
+  width: 200px;
+  background-color: blue;
+  position: sticky;
+  top: 0;
+}

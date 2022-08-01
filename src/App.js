@@ -64,7 +64,7 @@ function App() {
           
     if(page === "About")
       return <About></About>
-      
+    
     if(page === "Contact")
       return (<Contact/>)
     
@@ -108,6 +108,12 @@ function App() {
 
   return (
     <div className="App" onScroll={()=>{console.log("a")}}>
+        {/* <div className='line'></div>
+        <div className='columnA'>
+            <div className='columnInnerA'>
+                abc
+            </div>
+        </div> */}
       <Header
         setPage={setPage}
         userId={userId}
