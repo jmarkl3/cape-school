@@ -62,11 +62,11 @@
     width: 220px;
     height: 40px;
     line-height: 40px;
-    background-color: rgb(0,143,187);
-    font-size: 14px;
+    font-size: 14px;    
+    background-image: linear-gradient(rgb(25, 159, 204), rgb(7, 114, 149));
 }
 .home .button:hover{
-    background-color: rgb(79, 183, 214);
+    background-image: linear-gradient(rgb(87, 197, 234), rgb(36, 136, 169));
 }
 .bannerLogo{
     padding: 40px;

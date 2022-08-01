@@ -5,7 +5,7 @@ import "../Styles/About.css"
 
 function About() {
   return (
-    <div>
+    <div className='about'> 
       <div className='aboutBanner'>
         <img src={ourStory}></img>
       </div>
@@ -30,7 +30,7 @@ function About() {
             Are you ready to get started?
         </div>
         <div>
-            <div className='aboutButton'>Enroll Today</div>
+            <div className='button'>Enroll Today</div>
         </div>
         <div className='aboutBottomText2'>
             Have Questions? Call us at # 800-831-9135 or reach us by email at info@capeschool.com

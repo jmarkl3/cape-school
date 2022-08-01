@@ -43,7 +43,7 @@ function Contact() {
             <input placeholder='phone'></input>
             <input placeholder='email'></input>
             <textarea placeholder='message'></textarea>
-            <button>Send</button>
+            <button className='button'>Send</button>
         </div>
 
     </div>

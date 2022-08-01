@@ -15,7 +15,7 @@
     font-size: 16px;
     color: rgb(0,143,187);    
     padding: 40px;
-}
+} 
 .phTitle{
     letter-spacing: 6px;
 }
@@ -62,21 +62,13 @@
     color: rgb(44,50,66);
     height: 126px;
 }
-.aboutButton{
+.about .button{
     height: 40px;
-    width: 200px;
-    background-color: rgb(0,120,160);
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    display: inline-block;
+    width: 200px;            
     line-height: 40px;
-    margin: 20px;
+    margin: 20px;    
 }
-.aboutButton:hover{
-    background-color: rgb(12, 153, 201);
-}
+
 .aboutBottomText{
     font-size: 20px;
 }

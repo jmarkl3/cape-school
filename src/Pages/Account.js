@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { signOut } from 'firebase/auth'
 import "../Styles/Account.css"
 import { getDatabase, onValue, ref, remove, set } from 'firebase/database'
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
 
 function Account(props) {
   
@@ -106,10 +106,11 @@ function Account(props) {
     setImageFile(file)
   }
   function deleteImage(){
-    // Remove the image from storage
-
+    console.log("deleting image cape-school/userImages/"+props.userId)
+    // Remove the image from storage    
+    deleteObject(storageRef(database, "cape-school/userImages/"+props.userId)) 
     // Remove the link from the database
-    remove(ref(database, "cape-school/users/"+props.userId+"/profileData/imageUrl"))
+    //remove(ref(database, "cape-school/users/"+props.userId+"/profileData/imageUrl"))
   }
 
   return (
@@ -118,8 +119,9 @@ function Account(props) {
         <div className='accountInnerBox'>
           <img src={profileData.imageUrl} onDrop={(event)=>imageDrop(event)} id="imageDisplay"></img>
           <div className='imageButtons'>
-            <input className='imageButton' type={"file"} onChange={imageChosen} id="imageChooser"></input>
-            <button className='imageButton'>Delete</button>
+            <input id="imageFilePicker" className='hidden' type={"file"} onChange={imageChosen}></input>
+            <label for="imageFilePicker" className='button'>Choose Image</label>
+            <button className='button' onClick={deleteImage}>Delete</button>
           </div>
         </div>
         <div className='accountInnerBox'>
@@ -143,9 +145,9 @@ function Account(props) {
         </div>
         <div className='accountInnerBox'>
           Actions
-          <button className='accountButton' onClick={()=>signOut(props.auth)}>Log Out</button>        
-          <button className='accountButton'>Reset Password</button>        
-          <button className='accountButton' onClick={saveUserData}>Save Changes</button>        
+          <button className='button' onClick={()=>signOut(props.auth)}>Log Out</button>        
+          <button className='button'>Reset Password</button>        
+          <button className='button' onClick={saveUserData}>Save Changes</button>        
         </div>
         
       </div>

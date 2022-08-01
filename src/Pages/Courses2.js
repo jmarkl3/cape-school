@@ -153,23 +153,50 @@ function Courses2(props) {
         display question answers from db
             on each question load, if complete look in userData for the selected answer by calling props.getSelectedAnswer(_courseId, _chapterId, _sectionId, _elementId)
 
-        *
-          when the complete section button is pressed go to next section (and set proper variables)
-            nextSection button finds next section, or next chapter, or completes course
-        
-        complete section doesn't show when section is already complete, but message saying it is complete does            
+            when the complete section button is pressed go to next section (and set proper variables)
+              nextSection button finds next section, or next chapter
 
-                        
         start from first chapter and first section if there is no position saved
-
         open sidebar on load, then close it right away
+        when all elements are coplete complete section button shows, when section is complete show Message:  Section Complete  Button: Next Section        
+        *
+
+
+        new ui
+          common things pulled into same css file
+          vars css file has color variables
+          list classes that can be in a combined css file          
+
+        
+        get rid of 2 at end of files and unnecessary files        
+        
+
+        finishing touches
+          quotes
+          links in footer
+          password reset setup
+          no need for selection menu at start, just a message and a button
 
         payment screen
           card input/other methods shows when user clicks pay now
           button somewhere to updgrade (maybe at third chapter)
+        
         enroll button takes existing user to the course
+        
+        send contact message functionality
+          maybe just save it in the db, maybe send it to an email, maybe firebase can send emails
+        
+        make a name
+        logo
+        create a website
+        create an email
+          update contact info on the site
+        get a phone number for it
+        put on the map
 
-        new ui
+        Content:
+        info about real estate agent pay, job growth, type of person that would want to do it
+        info page about how to get licence (all the steps and exactly how to do them)
 */
     /*
 ====================
@@ -537,6 +564,7 @@ function Courses2(props) {
     // Last position the user was at, or furthest along they are
     function loadPosition(_courseId){
         onValue(ref(database, "cape-school/users/"+props.userId+"/courses/"+_courseId+"/position"), snap=>{
+            // If there is  a first section and chapter load them
             if(snap.val() != undefined){
                 setChapterPosition(snap.val().chapter)
                 setSectionPosition(snap.val().section)
@@ -544,9 +572,14 @@ function Courses2(props) {
                 setSectionId(snap.val().section)
                 loadElements(_courseId, snap.val().chapter, snap.val().section)
                 loadStep(_courseId, snap.val().chapter, snap.val().section)
+                // Maybe have a check to see if they exist in the chapters and sections in the course, if not go to first ones
             }
             else{
-                // get first chapter and section
+                // Get first chapter and section
+                var firstChapter = getFirstChapter(_courseId)
+                var firstSection = getFirstSection(_courseId, firstChapter)
+                setChapterId(firstChapter.id)
+                setSectionId(firstSection.id)
             }
         })
         setSectionPosition()
@@ -860,21 +893,82 @@ function Courses2(props) {
         if(nextSection != null){
             setSectionId(nextSection.id)
             setViewStep(0)
-            loadPosition(courseId)
+            loadStep(courseId, chapterId, nextSection.id)
             loadElements(courseId, chapterId, nextSection.id)   
         }
         else{
             // Go to next chapter
-
-            console.log("at end of chapter")
+            nextChapter()
         }
 
         // If the current section was the last one it will never get this value so it will still be null, meaning there is no next section in this chapter
         return nextSection
     }
     function nextChapter(){
+        var atChapter = false
+        var nextChapter = null
+        // Look at each chapter in the array for the current chapter
+        chapterList.forEach(chapter =>{
+            if(atChapter){
+                nextChapter = chapter
+                atChapter = false
+            }
+            if(chapter.id == chapterId)
+                atChapter = true               
+        })
+        
+        //console.log("next section is "+nextSection.title)
+        //console.log("with id "+nextSection.id)
 
+        if(nextChapter != null){
+            setChapterId(nextChapter.id)
+            var firstSection = null
+            firstSection = getFirstSection(courseId, nextChapter.id)
+            setSectionId(firstSection.id)
+            setViewStep(0)
+            loadStep(courseId, nextChapter.id, firstSection.id)
+            loadElements(courseId, nextChapter.id, firstSection.id)   
+        }
+        else{
+            // Complete course (call a function that makes sure all other chapters and sectoin have been completed)
+
+            console.log("at end of course")
+        }
+
+        // If the current section was the last one it will never get this value so it will still be null, meaning there is no next section in this chapter
+        return nextSection
     }
+    // returns the first section in the chapter
+    function getFirstSection(_courseId, _chapterId){
+        var firstSection = null
+        var first = true
+        chapterList.forEach(chapter =>{
+            if(chapter.id == _chapterId){
+                chapter.sections.forEach(section=>{
+                    if(first){
+                        firstSection = section
+                        first = false                
+                        return firstSection
+                    }
+                })                
+            }         
+        })
+        return firstSection
+    }
+    // Returns the first chapter in a course
+    function getFirstChapter(_courseId){
+        var firstChapter = null
+        var first = true
+        chapterList.forEach(chapter =>{
+            if(first){
+                firstChapter = chapter
+                first = false
+                return firstChapter
+            }         
+        })
+        return firstChapter
+    }
+
 
     function goToSection(){
         //setViewStep(0)
@@ -885,13 +979,6 @@ function Courses2(props) {
     }
 
     // #endregion
-
-    console.log(document.body.scrollTop)
-    document.body.onScroll+=ab
-    function ab(){
-        document.body.scrollHeight = "100px"
-        console.log(document.body.scrollHeight)
-    }
 
     return (
     <div>

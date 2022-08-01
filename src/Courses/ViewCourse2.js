@@ -47,6 +47,20 @@ function ViewCourse2(props) {
     //setStep(0)
   }
 
+  function completeButton(){
+    console.log("in complete button")
+    if(props.viewStep > props.elementsArray.length-1)
+      if(!props.isSectionComplete(props.chapterId, props.sectionId))
+        return <div className='button' onClick={()=>completeSection()}>Complete Section</div>
+      else
+        return(
+          <div>
+            <div className='sectionCompleteMessage'>Section Complete</div>
+            <div className='button' onClick={()=>completeSection()}>Next Section</div>
+          </div>
+        )
+  }
+
   return (
     <div className='page'>        
         <Sidebar2
@@ -66,8 +80,7 @@ function ViewCourse2(props) {
         ></Sidebar2>   
       {displayElements()}  
       {
-        (props.viewStep > props.elementsArray.length-1) && 
-        <div className='button' onClick={()=>completeSection()}>Complete Section</div>
+        completeButton()  
       } 
     </div>
   )

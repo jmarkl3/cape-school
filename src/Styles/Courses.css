@@ -118,7 +118,13 @@
     margin: 10px;
     height: 70px;
 }
-
+.sectionCompleteMessage{
+    width: 80vw;
+    height: 40px;
+    line-height: 40px;
+    background-image: linear-gradient(90deg, rgba(0, 0, 255, 0), rgba(35, 189, 35, 0.603), rgba(35, 189, 35, 0.603), rgba(0, 0, 255, 0));    
+    display: inline-block;
+}
 @media screen and (max-width:1000px){
     .pageBox{
         width: 100%;
