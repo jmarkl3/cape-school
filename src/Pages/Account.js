@@ -15,7 +15,6 @@ function Account(props) {
     imageUrl:""
   }) 
   const [imageFile, setImageFile] = useState(null)
-  const [imageUrl, setImageUrl] = useState(null)
   const storage = getStorage(props.app)
 
   useEffect(()=>{
@@ -54,10 +53,7 @@ function Account(props) {
         })
 
 
-      // if image is undefined can set it to a default image
-
-      setImageUrl(userDataObject.imageUrl)
-        console.log("setting image url to "+userDataObject.imageUrl)
+      // if image is undefined can set it to a default image   
 
     })
 
@@ -81,6 +77,7 @@ function Account(props) {
     // Save the image into storage and save that url into the database
     uploadBytes(storageRef(storage, "cape-school/userImages/"+props.userId), imageFile).then(snap=>{    
       // Get the url  
+      console.log(snap.ref) 
       getDownloadURL(snap.ref).then(urlResult=>{
         // Save it in the db
         set(ref(database, "cape-school/users/"+props.userId+"/profileData/imageUrl"), urlResult)
@@ -94,23 +91,31 @@ function Account(props) {
 
   }
   function imageChosen(){
+
     // Get a ref to the chooser
-    var imageChooser = document.getElementById("imageChooser") 
+    var imageChooser = document.getElementById("imageFilePicker") 
+    
     // Get the file
     var file = imageChooser.files[0]
+    
     // Create a url
     var fileUrl = URL.createObjectURL(file) 
+    
     // Get a ref to the display and display the selected file
     document.getElementById("imageDisplay").src = fileUrl
+    
     // Put the image file in state to be saved when save is pressed
     setImageFile(file)
   }
   function deleteImage(){
-    console.log("deleting image cape-school/userImages/"+props.userId)
+    
     // Remove the image from storage    
-    deleteObject(storageRef(database, "cape-school/userImages/"+props.userId)) 
+    var imageRef = storageRef(storage, "cape-school/userImages/"+props.userId)    
+    deleteObject(imageRef) 
+
     // Remove the link from the database
-    //remove(ref(database, "cape-school/users/"+props.userId+"/profileData/imageUrl"))
+    remove(ref(database, "cape-school/users/"+props.userId+"/profileData/imageUrl"))
+    
   }
 
   return (

@@ -159,6 +159,9 @@ function Courses2(props) {
         start from first chapter and first section if there is no position saved
         open sidebar on load, then close it right away
         when all elements are coplete complete section button shows, when section is complete show Message:  Section Complete  Button: Next Section        
+        
+        delete image in account page
+        
         *
 
 
