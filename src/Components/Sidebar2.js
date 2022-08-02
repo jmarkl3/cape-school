@@ -52,7 +52,7 @@ function Sidebar(props) {
     // #endregion 
 
   return (
-    <div className={'sidebar posF '+(!open ? "closed" : "")} onClick={()=>openSidebar()} key={props.randomNumber}>
+    <div className={'sidebar '+(!open ? "closed" : "")} onClick={()=>openSidebar()} key={props.randomNumber}>
         <div className='sidebarLogo'><img src={logoImage}></img></div>
         <div className=''>
             {!open&& <div className='sidebarOpenButton'>{arrow}</div>}

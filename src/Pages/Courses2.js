@@ -366,8 +366,9 @@ function Courses2(props) {
 
                 ></EditCourse2>
             )
-        if(page === "viewCourse")
-            return(
+        if(page === "viewCourse"){
+        console.log("going to view course")
+            return(                
                 <ViewCourse2
                     chapterList={chapterList}                    
                     setChapterId={setChapterId}                                        
@@ -391,7 +392,7 @@ function Courses2(props) {
                     isSectionComplete={isSectionComplete}
                     isChapterComplete={isChapterComplete}
                 ></ViewCourse2>
-            )
+            )}
 
 
     }
@@ -410,7 +411,7 @@ function Courses2(props) {
         setPage("enroll")
     }
     function goToCourse(_courseId, page){
-
+        console.log("going to course "+courseId+" "+page)
         setCourseId(_courseId)
         loadChapterList(_courseId)
         loadUserData(_courseId)
@@ -583,8 +584,14 @@ function Courses2(props) {
                 // Get first chapter and section
                 var firstChapter = getFirstChapter(_courseId)
                 var firstSection = getFirstSection(_courseId, firstChapter)
-                setChapterId(firstChapter.id)
-                setSectionId(firstSection.id)
+                if(firstChapter == null)
+                    setChapterId(null)
+                else
+                    setChapterId(firstChapter.id)
+                if(firstSection == null)
+                    setSectionId(null)
+                else
+                    setSectionId(firstSection.id)
             }
         })
         setSectionPosition()
@@ -606,12 +613,18 @@ function Courses2(props) {
 
     function isSectionComplete(_chapterId, _sectionId){
         
+        if(_chapterId == null || _sectionId == null)
+            return false
+
         if(!validUserDataPath(_chapterId, _sectionId))
             return false
             
         return userData.chapters[_chapterId].sections[_sectionId].complete
     }
     function isChapterComplete(_chapterId){
+
+        if(_chapterId == null)
+        return false
 
         var returnValue = true
 
@@ -814,7 +827,8 @@ function Courses2(props) {
             return
         // Put the course in their course list and also create an entry in the courseData section
         set(ref(database, "cape-school/users/"+_userId+"/courseList/"+_courseId), true)
-        update(ref(database, "cape-school/users/"+_userId+"/courses/"+_courseId), {enrolled:true})
+        update(ref(database, "cape-school/users/"+_userId+"/courses/"+_courseId), {enrolled:true})             
+        setTimeout(()=>goToCourse(_courseId, "viewCourse"), 100) 
     }
     function saveStep(_step){
         set(ref(database, "cape-school/users/"+props.userId+"/courses/"+courseId+"/chapters/"+chapterId+"/sections/"+sectionId+"/step"), _step)           
@@ -986,7 +1000,7 @@ function Courses2(props) {
     // #endregion
 
     return (
-    <div>
+    <div key={""+refresh}>
         {displayPage()}
     </div>
   )

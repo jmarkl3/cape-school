@@ -20,8 +20,10 @@ function Enroll2(props) {
 
             // This will put the course in the user data in the db, set the courseId, and change the page to viewCourse
             props.enrollUser(props.userId, props.courseId)            
-            return
-    
+            
+            props.setPage()
+
+            return    
         }
 
         // If there is no user signed in create one

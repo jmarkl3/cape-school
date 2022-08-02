@@ -63,6 +63,7 @@ function ViewCourse2(props) {
 
   return (
     <div className='page'>        
+        {props.isSectionComplete(props.chapterId, props.sectionId) && <div className='sectionCompleteMessage'>Section Complete</div>}
         <Sidebar2
             sectionId={props.sectionId}
             chapterId={props.chapterId}            
@@ -79,9 +80,7 @@ function ViewCourse2(props) {
             isChapterComplete={props.isChapterComplete}
         ></Sidebar2>   
       {displayElements()}  
-      {
-        completeButton()  
-      } 
+      {completeButton()} 
     </div>
   )
 }

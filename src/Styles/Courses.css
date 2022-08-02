@@ -121,6 +121,7 @@
     position: absolute;
     cursor: pointer;
     user-select: none;
+    z-index: 2;
 }
 .closeButton:hover{
     background-color: rgba(213, 127, 127, 0.854);
