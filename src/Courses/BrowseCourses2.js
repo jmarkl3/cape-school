@@ -28,14 +28,21 @@ function BrowseCourses2(props) {
 
 
   return (
-    <div className='page'>        
+    <div className='page'> 
+    {props.userId != null && 
       <div className='courseBoxSmaller'>
-        <div className='browseCoursesButtonBox'>
-          <button className='button' onClick={props.createCourse}>Add course</button>
-          <div className='button' onClick={()=>editCourse()}>{editing ? "Stop Editing":"Edit Courses"}</div>   
-          {props.userId != null && <button className='button' onClick={()=>props.setPage("userCourses")}>Your Courses</button>}
-        </div>          
-      </div>
+          {props.isAdmin &&
+            <div className='browseCoursesButtonBox'>              
+              <button className='button' onClick={props.createCourse}>Add course</button>
+              <div className='button' onClick={()=>editCourse()}>{editing ? "Stop Editing":"Edit Courses"}</div>   
+              {props.userId != null && <button className='button' onClick={()=>props.setPage("userCourses")}>Your Courses</button>}              
+            </div>          
+          }            
+          {!props.isAdmin &&
+            <button className='button' onClick={()=>props.setPage("userCourses")}>Your Courses</button>  
+          }
+      </div>    
+    }       
     {
         props.courseList.map(course=>(
             <div className='courseBox'>

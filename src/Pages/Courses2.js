@@ -289,13 +289,14 @@ function Courses2(props) {
     const [viewStep, setViewStep] = useState(0)
     const [refresh, setRefresh] = useState(0)
     const [userData, setUserData] = useState(null)
-
+    const [isAdmin, setIsAdmin] = useState(false)
     const database = getDatabase(props.app)  
 
     useEffect(()=>{
                 
         loadCourseList()
-        
+        checkForAdmin()
+
         if(props.userId != null)
             setPage("userCourses")
 
@@ -318,6 +319,7 @@ function Courses2(props) {
                     setPage={setPage}
                     userIsInCourse={userIsInCourse}
                     goToCourse={goToCourse}
+                    isAdmin={isAdmin}
                 ></BrowseCourses2>
             )
         if(page == "enroll")
@@ -647,6 +649,13 @@ function Courses2(props) {
         return returnValue
     }
 
+    function checkForAdmin(){
+        if(props.userId == null)
+            return
+        onValue(ref(database, "cape-school/users/"+props.userId+"/isAdmin"), snap=>{
+            setIsAdmin(snap.val())
+        })
+    }
 
 
     // function loadPosition(){
