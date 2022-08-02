@@ -55,15 +55,8 @@
 .button{
 
 }
-.loginButton{
+.login .button{
     width: 100%;
-    color: white;
-    background-color: rgb(0,143,187);
-    border-radius: 5px;
-    height: 40px;
-    outline: none;
-    border: none;
-    cursor: pointer;
 }
 .loginButton:hover{
     background-color: rgb(27, 172, 216);

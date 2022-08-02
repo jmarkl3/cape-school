@@ -26,6 +26,11 @@ function Account(props) {
 
   const database = getDatabase(props.app)
 
+  function logOutUser(){
+    signOut(props.auth)
+    props.setPage("Home")
+  }
+
   function loadUserData(){
     onValue(ref(database, "cape-school/users/"+props.userId+"/profileData"), snap=>{
         var userDataObject = snap.val()  
@@ -150,7 +155,7 @@ function Account(props) {
         </div>
         <div className='accountInnerBox'>
           Actions
-          <button className='button' onClick={()=>signOut(props.auth)}>Log Out</button>        
+          <button className='button' onClick={()=>logOutUser()}>Log Out</button>        
           <button className='button'>Reset Password</button>        
           <button className='button' onClick={saveUserData}>Save Changes</button>        
         </div>
